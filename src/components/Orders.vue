@@ -1,6 +1,33 @@
 <template>
-    <div class="order-list">
-        List
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="danger">
+                        <td>Column content</td>
+                        <td>Column content</td>
+                        <td>Column content</td>
+                    </tr>
+                    <tr class="success">
+                        <td>Column content</td>
+                        <td>Column content</td>
+                        <td>Column content</td>
+                    </tr>
+                    <tr class="info">
+                        <td>Column content</td>
+                        <td>Column content</td>
+                        <td>Column content</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
     </div>
 </template>
 
