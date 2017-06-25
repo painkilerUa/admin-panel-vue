@@ -35,3 +35,14 @@ export const getOrders = ({commit}, payload) => {
 
     })
 }
+
+export const createNewCustomer = ({commit}, payload) => {
+    requestToServer('customers', 'post', payload).then(
+        res => {
+          console.log(res)
+//            commit('setOrders', res)
+        }
+    ).catch((err) => {
+
+    })
+}
