@@ -5,3 +5,6 @@ export const isAuthorized = (state) => {
 // export default {
 //     isAuthorized
 // }
+export const getMsg = (state) => {
+        return state.msg
+    }

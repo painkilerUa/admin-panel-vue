@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <div class="alert" :class="getMsg.className" role="alert" v-show="getMsg">
+            <p>{{getMsg.text}}</p>
+        </div>
         <div class="row">
           <button type="button" class="btn btn-primary btn-md active pull-right" @click="isNewCustomerFormShowed=!isNewCustomerFormShowed">Создать получателя</button>
         </div>
@@ -9,7 +12,7 @@
 
 <script>
     import newCustomerForm from  '../customers/NewCustomerForm.vue'
-    import {mapActions} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     export default{
         data(){
             return {
@@ -30,6 +33,11 @@
                     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
                 }
             })
+        },
+        computed: {
+            ...mapGetters([
+                'getMsg'
+            ])
         }
     }
 </script>

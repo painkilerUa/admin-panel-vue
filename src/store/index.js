@@ -13,7 +13,12 @@ export const store = new Vuex.Store({
             login: '',
             pass: ''
         },
-        orders: []
+        orders: [],
+        msg: {
+            text: '',
+            className: {'alert-success': false, 'alert-danger': false}
+        }
+
     },
     getters,
     mutations,

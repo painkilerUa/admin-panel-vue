@@ -1,5 +1,5 @@
 <template>
-  <form class="container">
+  <form class="container" >
       <div class="row">
           <div class="col-lg-4">
               <label for="customer_surname">Фамилия</label>
@@ -69,7 +69,7 @@
       </div>
       <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-default" :click.prevent="createNewCustomer">Submit</button>
+              <button type="submit" class="btn btn-default" @click.prevent="createNewCustomer(customer)">Submit</button>
           </div>
       </div>
   </form>
@@ -97,20 +97,12 @@
     },
     methods: {
         ...mapActions([
-          'getOrders'
+            'getOrders',
+            'createNewCustomer'
         ]),
-        createNewCustomer({
-            headers: {
-              'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-            }
-        })
     },
     created(){
-      this.getOrders({
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }
-      })
+      this.getOrders()
     }
   }
 </script>
