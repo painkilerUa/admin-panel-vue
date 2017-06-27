@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
             className: {'alert-success': false, 'alert-danger': false}
         },
         new_order: {
-            order_user_id: null,
+            order_user_id: 5,
             order_del_city: null,
             order_del_depart_num: null,
             order_del_address: null,

@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                {{getNewOrder.order_user_id}}
+                {{getSelectedCustomerDetail}}
             </div>
             <div class="col-md-1"></div>
         </div>
@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                {{getSelectedCustomerDetail}}
+
             </div>
             <div class="col-md-1"></div>
         </div>

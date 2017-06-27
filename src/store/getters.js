@@ -13,5 +13,5 @@ export const getNewOrder = (state) => {
 }
 
 export const getSelectedCustomerDetail = (state) => {
-    state.customers.find((customer)=>{customer.id === state.new_order.order_user_id})
+    return state.customers.find((customer)=>{state.new_order.order_user_id === customer.id})
 }
