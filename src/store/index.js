@@ -14,11 +14,20 @@ export const store = new Vuex.Store({
             pass: ''
         },
         orders: [],
+        customers: [],
+        products: [],
         msg: {
             text: '',
             className: {'alert-success': false, 'alert-danger': false}
+        },
+        new_order: {
+            order_user_id: null,
+            order_del_city: null,
+            order_del_depart_num: null,
+            order_del_address: null,
+            order_date: null,
+            order_status: null
         }
-
     },
     getters,
     mutations,

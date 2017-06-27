@@ -7,10 +7,13 @@ const api = {
 }
 
 function requestToServer(urlEnd, type, payload = {}){
-    return Vue.http[type](api.serverURL + urlEnd, payload, {headers: {'Authorization': 'Bearer ' + localStorage['access_token']}})
+    if(type == 'get'){
+        return Vue.http[type](api.serverURL + urlEnd, {headers: {'Authorization': 'Bearer ' + localStorage['access_token']}})
+    }else{
+        return Vue.http[type](api.serverURL + urlEnd, payload, {headers: {'Authorization': 'Bearer ' + localStorage['access_token']}})
+    }
 }
 
-console.log(requestToServer)
 export const login = ({ commit }, payload) => {
     requestToServer('login', 'post', payload).then(
         resolve => {
@@ -29,18 +32,35 @@ export const login = ({ commit }, payload) => {
 export const getOrders = ({commit}, payload) => {
     requestToServer('orders', 'get', payload).then(
         res => {
-            console.log(res)
-//            commit('setOrders', res)
+            commit('setOrders', res)
         }
     ).catch((err) => {
+        console.log(err)
+    })
+}
 
+export  const getCustomers = ({commit}, payload) => {
+    requestToServer('customers', 'get', payload).then(
+        res => {
+            commit('setCustomers', res.bodyText)
+        }
+    ).catch((err) => {
+        console.log(err)
     })
 }
 
 export const createNewCustomer = ({commit}, payload) => {
     requestToServer('customers', 'post', payload).then(
         res => {
-            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'})
+            requestToServer('customers', 'get', payload).then(
+                res => {
+                    commit('setCustomers', res.bodyText)
+                }
+            ).catch((err) => {
+                console.log(err)
+            })
+            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
+            commit('setOrderUserId', res.body)
         }
     ).catch((err) => {
         commit('setInformationMsg', {text: 'Пользователь не был создан. Проверте существующих пользователей по номеру телефона', 'className': 'alert-danger'})
