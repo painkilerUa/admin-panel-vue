@@ -49,6 +49,16 @@ export  const getCustomers = ({commit}, payload) => {
     })
 }
 
+export const getProducts = ({commit}, payload) => {
+    requestToServer('products', 'get', payload).then(
+        res => {
+            commit('setProducts', res.bodyText)
+        }
+    ).catch((err) => {
+        console.log(err)
+    })
+}
+
 export const createNewCustomer = ({commit}, payload) => {
     requestToServer('customers', 'post', payload).then(
         res => {
@@ -65,4 +75,16 @@ export const createNewCustomer = ({commit}, payload) => {
     ).catch((err) => {
         commit('setInformationMsg', {text: 'Пользователь не был создан. Проверте существующих пользователей по номеру телефона', 'className': 'alert-danger'})
     })
+}
+
+
+export const  removeSelectedCustomer = ({commit}, payload) => {
+    commit('removeSelectedCustomer')
+}
+export const addChosenCustomer = ({commit}, payload) => {
+    commit('addChosenCustomer', payload)
+}
+
+export const addChosenProduct = ({commit}, payload) => {
+    commit('addChosenProduct', payload)
 }
