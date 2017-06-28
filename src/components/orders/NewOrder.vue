@@ -71,9 +71,13 @@
                 <span>{{product.price}} грн</span>
             </div>
             <div class="col-md-1">
-                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" @click=""></span>
+                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" @click="removeSelectedProduct(product.id)"></span>
             </div>
         </div>
+        <div class="row">
+          <button type="button" class="btn btn-primary btn-md active pull-right" @click="isNewProductFormShowed=!isNewProductFormShowed">Создать товар</button>
+        </div>
+        <app-new-product-form v-if="isNewProductFormShowed"></app-new-product-form>
         <div class="row" v-if="getSelectedCustomerDetail">
             <div class="col-md-4">
                 <span>
@@ -126,17 +130,20 @@
 
 <script>
     import newCustomerForm from  '../customers/NewCustomerForm.vue'
+    import newProductForm from '../products/NewProductForm.vue'
     import {mapGetters, mapActions} from 'vuex'
     export default{
         data(){
             return {
                 isNewCustomerFormShowed: false,
+                isNewProductFormShowed: false,
                 filteredCustomers: [],
                 filteredProducts: []
             }
         },
         components: {
-          appNewCustomerForm: newCustomerForm
+            appNewCustomerForm: newCustomerForm,
+            appNewProductForm: newProductForm
         },
         methods: {
             ...mapActions([
@@ -144,6 +151,7 @@
                 'getCustomers',
                 'getProducts',
                 'removeSelectedCustomer',
+                'removeSelectedProduct',
                 'addChosenCustomer',
                 'addChosenProduct'
             ]),

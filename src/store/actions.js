@@ -81,6 +81,9 @@ export const createNewCustomer = ({commit}, payload) => {
 export const  removeSelectedCustomer = ({commit}, payload) => {
     commit('removeSelectedCustomer')
 }
+export const removeSelectedProduct = ({commit}, payload) => {
+  commit('removeSelectedProduct', payload)
+}
 export const addChosenCustomer = ({commit}, payload) => {
     commit('addChosenCustomer', payload)
 }
