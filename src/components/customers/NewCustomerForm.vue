@@ -64,7 +64,7 @@
       <div class="row">
           <div class="col-lg-12">
               <label for="customer_comment">Комментарий</label>
-            <textarea type="text" class="form-control" id="customer_comment" Комментарий="5" v-model.lazy="customer.customer_comment"></textarea>
+            <textarea type="text" class="form-control" id="customer_comment" v-model.lazy="customer.customer_comment"></textarea>
           </div>
       </div>
       <div class="row">
@@ -102,7 +102,6 @@
         ]),
     },
     created(){
-      this.getOrders()
     }
   }
 </script>

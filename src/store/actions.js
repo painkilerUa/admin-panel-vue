@@ -77,6 +77,24 @@ export const createNewCustomer = ({commit}, payload) => {
     })
 }
 
+export const createNewProduct = ({commit}, payload) => {
+    requestToServer('products', 'post', payload).then(
+        res => {
+            requestToServer('products', 'get', payload).then(
+                res => {
+                    commit('setProducts', res.bodyText)
+                }
+            ).catch((err) => {
+                console.log(err)
+            })
+            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
+            commit('addCreatedProductToOrder', res.body)
+        }
+    ).catch((err) => {
+        commit('setInformationMsg', {text: 'Продукт не был создан. Проверте правильность введенных данных', 'className': 'alert-danger'})
+    })
+}
+
 
 export const  removeSelectedCustomer = ({commit}, payload) => {
     commit('removeSelectedCustomer')

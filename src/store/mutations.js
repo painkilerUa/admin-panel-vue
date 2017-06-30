@@ -22,6 +22,11 @@ export const setInformationMsg = (state, payload) => {
 export const setOrderUserId = (state, payload) => {
     state.new_order.order_user_id = payload.customer_id
 }
+
+export const addOrderedProductId = (state, payload) => {
+
+}
+
 export  const removeSelectedCustomer = (state) => {
     state.new_order.order_user_id = null;
 }
@@ -48,4 +53,8 @@ export const addChosenProduct = (state, payload) => {
         }
     }
     products.push(payload)
+}
+
+export const addCreatedProductToOrder = (state, payload) => {
+    state.new_order.order_products.push({id: payload, quantity: 1})
 }
