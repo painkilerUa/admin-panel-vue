@@ -97,7 +97,7 @@
       </div>
       <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-default" @click.prevent="createNewProduct(product)">Создать</button>
+              <button type="submit" class="btn btn-default" @click.prevent="createNewProduct()">Создать</button>
           </div>
       </div>
   </form>
@@ -128,27 +128,28 @@
           attr_color: '',
           attr_antifreeze_class: '',
           update_time: '',
-          provider_num: '',
-          image: null
-        }
+          provider_num: ''
+        },
+        formData: new FormData()
       }
     },
     methods: {
         ...mapActions([
-            'createNewProduct'
+            'createNewProductAction'
         ]),
         upload(e){
-            console.log(e);
-            e.preventDefault();
-//            let reader  = new FileReader();
-//            reader.onloadend = function () {
-//                this.product.image = reader.result;
-//            }
-//            reader.readAsDataURL(e.target);
-            let data = new FormData();
-            data.append('image', e.target.files[0]);
-            this.createNewProduct(data)
-//            this.product.image = e.target.value.toDataURL()
+            this.formData = new FormData()
+            this.formData.append('images', e.target.files[0])
+        },
+        createNewProduct(){
+            for(let key in this.product){
+                if(this.product[key]){
+                    this.formData.append(key, this.product[key]);
+                }else{
+                    this.formData.append(key, '');
+                }
+            }
+            this.createNewProductAction(this.formData)
         }
     },
     created(){
