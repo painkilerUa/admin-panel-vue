@@ -139,14 +139,10 @@
         ]),
         upload(e){
             console.log(e);
-            e.preventDefault();
-//            let reader  = new FileReader();
-//            reader.onloadend = function () {
-//                this.product.image = reader.result;
-//            }
-//            reader.readAsDataURL(e.target);
+//            e.preventDefault();
             let data = new FormData();
             data.append('image', e.target.files[0]);
+            data.append('try', this.product.name)
             this.createNewProduct(data)
 //            this.product.image = e.target.value.toDataURL()
         }
