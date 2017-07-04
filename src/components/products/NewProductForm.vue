@@ -113,7 +113,7 @@
           description: '',
           price: '',
           purchase_price: '',
-          status: '',
+          status: null,
           meta_title: '',
           product_url: '',
           img_url: '',
@@ -138,18 +138,24 @@
             'createNewProductAction'
         ]),
         upload(e){
-            this.formData = new FormData()
-            this.formData.append('images', e.target.files[0])
+            this.formData.set('images', e.target.files[0])
         },
         createNewProduct(){
+            if(!this.checkInsertedValue()) return;
+
             for(let key in this.product){
                 if(this.product[key]){
-                    this.formData.append(key, this.product[key]);
+                    this.formData.set(key, this.product[key]);
                 }else{
-                    this.formData.append(key, '');
+                    this.formData.set(key, '');
                 }
             }
             this.createNewProductAction(this.formData)
+        },
+        checkInsertedValue(){
+            if(true){
+                return false;
+            }
         }
     },
     created(){
