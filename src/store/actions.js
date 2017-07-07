@@ -77,7 +77,7 @@ export const createNewCustomer = ({commit}, payload) => {
     })
 }
 
-export const createNewProduct = ({commit}, payload) => {
+export const createNewProductAction = ({commit}, payload) => {
     requestToServer('products', 'post', payload).then(
         res => {
             requestToServer('products', 'get', payload).then(
