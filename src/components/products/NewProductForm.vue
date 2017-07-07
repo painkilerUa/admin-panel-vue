@@ -113,21 +113,21 @@
           description: '',
           price: '',
           purchase_price: '',
-          status: '',
+          status: null,
           meta_title: '',
           product_url: '',
           img_url: '',
           quantity: '',
           vendor: '',
           category_id: '',
-          attr_type: '',
-          attr_manufacturer: '',
-          attr_vid: '',
-          attr_sae: '',
-          attr_capacity: '',
-          attr_color: '',
-          attr_antifreeze_class: '',
-          update_time: '',
+          attr_type: null,
+          attr_manufacturer: null,
+          attr_vid: null,
+          attr_sae: null,
+          attr_capacity: null,
+          attr_color: null,
+          attr_antifreeze_class: null,
+          update_time: null,
           provider_num: ''
         },
         formData: new FormData()
@@ -138,18 +138,26 @@
             'createNewProductAction'
         ]),
         upload(e){
-            this.formData = new FormData()
-            this.formData.append('images', e.target.files[0])
+            this.formData.set('images', e.target.files[0])
         },
         createNewProduct(){
+            if(!this.checkInsertedValue()) return;
+
             for(let key in this.product){
                 if(this.product[key]){
-                    this.formData.append(key, this.product[key]);
+                    this.formData.set(key, this.product[key]);
                 }else{
-                    this.formData.append(key, '');
+                    this.formData.set(key, '');
                 }
             }
             this.createNewProductAction(this.formData)
+        },
+        checkInsertedValue(){
+            if(!this.product.name || !this.product.price || !this.product.purchase_price || !this.product.quantity || !this.product.vendor){
+                console.log('Form filled up incorrectly')
+                return false;
+            }
+            return true;
         }
     },
     created(){

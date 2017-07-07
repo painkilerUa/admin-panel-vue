@@ -80,6 +80,7 @@ export const createNewCustomer = ({commit}, payload) => {
 export const createNewProductAction = ({commit}, payload) => {
     requestToServer('products', 'post', payload).then(
         res => {
+            console.log(res)
             requestToServer('products', 'get', payload).then(
                 res => {
                     commit('setProducts', res.bodyText)
