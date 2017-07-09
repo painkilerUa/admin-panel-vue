@@ -16,8 +16,12 @@ export const setProducts = (state, payload) => {
 
 export const setInformationMsg = (state, payload) => {
     state.msg.text = payload.text;
-    state.msg.className[payload.className] = true
-
+    for(let className in state.msg.className){
+        className = false;
+    }
+    if(payload.className){
+        state.msg.className[payload.className] = true;
+    }
 }
 export const setOrderUserId = (state, payload) => {
     state.new_order.order_user_id = payload.customer_id

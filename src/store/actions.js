@@ -88,11 +88,12 @@ export const createNewProductAction = ({commit}, payload) => {
             ).catch((err) => {
                 console.log(err)
             })
-            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
-            commit('addCreatedProductToOrder', res.body)
+//            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
+            setInformationMsg({commit}, {'text': 'Продукт был успешно создан', 'className' : 'alert-success'});
+            commit('addCreatedProductToOrder', res.body['product_id'])
         }
     ).catch((err) => {
-        commit('setInformationMsg', {text: 'Продукт не был создан. Проверте правильность введенных данных', 'className': 'alert-danger'})
+        setInformationMsg({commit}, {'text': 'Продукт не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
     })
 }
 
@@ -109,4 +110,11 @@ export const addChosenCustomer = ({commit}, payload) => {
 
 export const addChosenProduct = ({commit}, payload) => {
     commit('addChosenProduct', payload)
+}
+
+export const setInformationMsg = ({commit}, payload) => {
+  commit('setInformationMsg', {'text': payload.text, 'className': payload.className});
+  setTimeout(() => {
+    commit('setInformationMsg', {'text': '', 'className': ''})
+  }, 5000)
 }
