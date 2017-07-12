@@ -123,10 +123,21 @@ export const setValueNewOrder =({commit}, payload) => {
     commit('setValueNewOrder', payload);
 }
 
-export const createNewOrder =({commit}, payload) => {
-    requestToServer('orders', 'post', payload).then(
+export const createNewOrder =({commit, state}, payload) => {
+    let order = state.new_order;
+    let date = +new Date();
+    order['order_date'] = date;
+    order['order_status_date'] = date;
+    for(let key in order){
+        if(!order[key]){
+          setInformationMsg({commit}, {'text': 'Заказ не был создан. Не все поля заполнены.', 'className' : 'alert-danger'});
+          return;
+        }
+    }
+    requestToServer('orders', 'post', order).then(
         res => {
             setInformationMsg({commit}, {'text': 'Заказ был успешно создан. Номер заказа: ' + res.order_id, 'className' : 'alert-success'});
+            commit('clearStateNewOrder');
         }
     ).catch((err) => {
         console.log(err);

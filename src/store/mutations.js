@@ -65,9 +65,16 @@ export const addCreatedProductToOrder = (state, payload) => {
 }
 
 export const setValueNewOrder = (state, payload) => {
-    console.log('input')
     for(let key in payload){
         let value = payload[key].target.value;
         state.new_order[key] = value;
     }
+}
+
+export const clearStateNewOrder = (state, payload) => {
+    let order = state.new_order;
+    for(let key in order){
+        order[key] = null;
+    }
+    order['order_products'] = [];
 }

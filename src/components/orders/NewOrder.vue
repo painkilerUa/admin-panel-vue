@@ -178,7 +178,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <button type="button" class="btn btn-default" @click="createNewOrder()">Создать</button>
+                <button type="button" class="btn btn-default" @click="createNewOrder">Создать</button>
             </div>
         </div>
     </div>
@@ -210,7 +210,7 @@
                 'addChosenCustomer',
                 'addChosenProduct',
                 'setValueNewOrder',
-                'createNewOrderAction'
+                'createNewOrder'
             ]),
             filterCustomers($event, filterBy){
                 this.filteredCustomers = [];
@@ -237,21 +237,6 @@
                         }
                     }
                 }
-            },
-            createNewOrder(){
-                if(!this.checkInsertedValue()) return;
-
-                let product = JSON.stringify(this.product);
-                this.formData.set('props', product);
-                this.createNewProductAction(this.formData)
-            },
-            checkInsertedValue(){
-                if(!this.product.name || !this.product.price || !this.product.purchase_price || !this.product.vendor){
-                    this.setInformationMsg({'text' : 'Form filled up incorrectly', 'className': 'alert-danger'});
-                    console.log('Form filled up incorrectly');
-                    return false;
-                }
-                return true;
             }
         },
         created(){
