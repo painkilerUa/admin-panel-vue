@@ -22,20 +22,19 @@ export const store = new Vuex.Store({
         },
         new_order: {
             order_user_id: null,
+            order_prepay: null,
             order_del_city: null,
             order_del_depart_num: null,
             order_del_address: null,
             order_date: null,
             order_status: null,
+            order_status_date: null,
             order_products: []
         }
     },
     getters,
     mutations,
-    // mutations: {
-    //     logout: state => {
-    //         state.user.authorized = !state.user.authorized
-    //     }
-    // },
     actions
 })
+
+

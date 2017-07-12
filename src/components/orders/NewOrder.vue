@@ -26,7 +26,7 @@
             <div class="col-md-7">
             </div>
             <div class="col-md-1">
-                <span class="glyphicon glyphicon-ok-sign" @click="addChosenProduct({id: product.id, quantity: 1})"></span>
+                <span class="glyphicon glyphicon-ok-sign" @click="addChosenProduct({id: product.id, quantity: 1, price: product.price, purchase_price: product.purchase_price})"></span>
             </div>
         </div>
         <div class="row">
@@ -54,6 +54,10 @@
             </div>
         </div>
         <div class="row">
+            <button type="button" class="btn btn-primary btn-md active pull-right" @click="isNewProductFormShowed=!isNewProductFormShowed">Создать товар</button>
+        </div>
+        <app-new-product-form v-if="isNewProductFormShowed"></app-new-product-form>
+        <div class="row">
             <button type="button" class="btn btn-primary btn-md active pull-right" @click="isNewCustomerFormShowed=!isNewCustomerFormShowed">Создать получателя</button>
         </div>
         <app-new-customer-form v-if="isNewCustomerFormShowed"></app-new-customer-form>
@@ -74,10 +78,6 @@
                 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" @click="removeSelectedProduct(product.id)"></span>
             </div>
         </div>
-        <div class="row">
-          <button type="button" class="btn btn-primary btn-md active pull-right" @click="isNewProductFormShowed=!isNewProductFormShowed">Создать товар</button>
-        </div>
-        <app-new-product-form v-if="isNewProductFormShowed"></app-new-product-form>
         <div class="row" v-if="getSelectedCustomerDetail">
             <div class="col-md-4">
                 <span>
@@ -125,9 +125,64 @@
             </div>
             <div class="col-md-1"></div>
         </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <label for="order-prepay">Статус предоплаты</label>
+                <select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">
+                    <option value="false">Отсутствует</option>
+                    <option value="pending">Присутствует</option>
+                    <option value="waiting">Присутствует(отправлено СМС)</option>
+                    <option value="true">Оплачено</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <label for="order-del-city">Город</label>
+                    <input type="text" class="form-control" id="order-del-city" placeholder="" @change="setValueNewOrder({'order_del_city' : $event})">
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <label for="order-del-name">Перевозчик</label>
+                <select class="form-control" id="order-del-name" @change="setValueNewOrder({'order_del_name' : $event})">
+                    <option value="" default>Отсутствует</option>
+                    <option value="new_post">Новая Почта</option>
+                    <option value="intime">Интайм</option>
+                    <option value="delivery">Деливери</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="input-group">
+                    <label for="order-del-depart-num">Номер отделения</label>
+                    <input type="text" class="form-control" id="order-del-depart-num" placeholder="" @change="setValueNewOrder({'order_del_depart_num' : $event})">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <label for="order-del-address">Адресс</label>
+                    <input type="text" class="form-control" id="order-del-address" placeholder="" @change="setValueNewOrder({'order_del_address' : $event})">
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <label for="order-status">Статус заказа</label>
+                <select class="form-control" id="order-status" @change="setValueNewOrder({'order_status' : $event})">
+                    <option value="pending" selected>В ожидании</option>
+                    <option value="processing">В обработке</option>
+                    <option value="paid">Оплачен</option>
+                    <option value="holding">Удержан</option>
+                    <option value="sended">Отправлен</option>
+                    <option value="completed">Выполнен</option>
+                    <option value="closed">Закрыт</option>
+                    <option value="confirmed">Подтвержден</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-default" @click="createNewOrder()">Создать</button>
+            </div>
+        </div>
     </div>
 </template>
-
 <script>
     import newCustomerForm from  '../customers/NewCustomerForm.vue'
     import newProductForm from '../products/NewProductForm.vue'
@@ -153,7 +208,9 @@
                 'removeSelectedCustomer',
                 'removeSelectedProduct',
                 'addChosenCustomer',
-                'addChosenProduct'
+                'addChosenProduct',
+                'setValueNewOrder',
+                'createNewOrderAction'
             ]),
             filterCustomers($event, filterBy){
                 this.filteredCustomers = [];
@@ -180,6 +237,21 @@
                         }
                     }
                 }
+            },
+            createNewOrder(){
+                if(!this.checkInsertedValue()) return;
+
+                let product = JSON.stringify(this.product);
+                this.formData.set('props', product);
+                this.createNewProductAction(this.formData)
+            },
+            checkInsertedValue(){
+                if(!this.product.name || !this.product.price || !this.product.purchase_price || !this.product.vendor){
+                    this.setInformationMsg({'text' : 'Form filled up incorrectly', 'className': 'alert-danger'});
+                    console.log('Form filled up incorrectly');
+                    return false;
+                }
+                return true;
             }
         },
         created(){

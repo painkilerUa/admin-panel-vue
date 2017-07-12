@@ -82,17 +82,17 @@ export const createNewProductAction = ({commit}, payload) => {
         res => {
             console.log(res)
             requestToServer('products', 'get', payload).then(
-                res => {
-                    commit('setProducts', res.bodyText)
+                response => {
+                    commit('setProducts', response.bodyText);
+                    commit('addCreatedProductToOrder', res.body['product_id'])
                 }
             ).catch((err) => {
                 console.log(err)
-            })
-//            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
+            });
             setInformationMsg({commit}, {'text': 'Продукт был успешно создан', 'className' : 'alert-success'});
-            commit('addCreatedProductToOrder', res.body['product_id'])
         }
     ).catch((err) => {
+        console.log(err);
         setInformationMsg({commit}, {'text': 'Продукт не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
     })
 }
@@ -117,4 +117,19 @@ export const setInformationMsg = ({commit}, payload) => {
   setTimeout(() => {
     commit('setInformationMsg', {'text': '', 'className': ''})
   }, 5000)
+}
+
+export const setValueNewOrder =({commit}, payload) => {
+    commit('setValueNewOrder', payload);
+}
+
+export const createNewOrder =({commit}, payload) => {
+    requestToServer('orders', 'post', payload).then(
+        res => {
+            setInformationMsg({commit}, {'text': 'Заказ был успешно создан. Номер заказа: ' + res.order_id, 'className' : 'alert-success'});
+        }
+    ).catch((err) => {
+        console.log(err);
+        setInformationMsg({commit}, {'text': 'Заказ не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+    })
 }

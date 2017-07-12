@@ -60,5 +60,14 @@ export const addChosenProduct = (state, payload) => {
 }
 
 export const addCreatedProductToOrder = (state, payload) => {
-    state.new_order.order_products.push({id: payload, quantity: 1})
+    let createdProduct = state.products.find((product)=> product.id === payload);
+    state.new_order.order_products.push({id: createdProduct.id, price: createdProduct.price, purchase_price: createdProduct.purchase_price, quantity: 1})
+}
+
+export const setValueNewOrder = (state, payload) => {
+    console.log('input')
+    for(let key in payload){
+        let value = payload[key].target.value;
+        state.new_order[key] = value;
+    }
 }
