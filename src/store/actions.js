@@ -128,11 +128,9 @@ export const createNewOrder =({commit, state}, payload) => {
     let date = +new Date();
     order['order_date'] = date;
     order['order_status_date'] = date;
-    for(let key in order){
-        if(!order[key]){
-          setInformationMsg({commit}, {'text': 'Заказ не был создан. Не все поля заполнены.', 'className' : 'alert-danger'});
-          return;
-        }
+    if(!state.new_order.order_del_city || !state.new_order.order_prepay || !state.new_order.order_products.length || !state.new_order.order_status || !state.new_order.order_user_id){
+        setInformationMsg({commit}, {'text': 'Заказ не был создан. Не все поля заполнены.', 'className' : 'alert-danger'});
+        return;
     }
     requestToServer('orders', 'post', order).then(
         res => {
