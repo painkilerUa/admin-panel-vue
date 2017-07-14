@@ -39,7 +39,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon" id="phone-input">Телефон</span>
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="phone-input" @input="filterCustomers($event, 'customer_main_phone')">
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="phone-input" @change="filterCustomers($event, 'customer_main_phone')">
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -129,6 +129,7 @@
             <div class="col-lg-2">
                 <label for="order-prepay">Статус предоплаты</label>
                 <select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">
+                    <option value="" selected></option>
                     <option value="false">Отсутствует</option>
                     <option value="pending">Присутствует</option>
                     <option value="waiting">Присутствует(отправлено СМС)</option>
@@ -174,6 +175,12 @@
                     <option value="closed">Закрыт</option>
                     <option value="confirmed">Подтвержден</option>
                 </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <label for="order_comment">Комментарий</label>
+                <textarea type="text" class="form-control" id="order_comment" @change="setValueNewOrder({'order_comment' : $event})"></textarea>
             </div>
         </div>
         <div class="row">

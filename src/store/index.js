@@ -24,12 +24,14 @@ export const store = new Vuex.Store({
             order_user_id: null,
             order_prepay: null,
             order_del_city: null,
+            order_del_name: null,
             order_del_depart_num: null,
             order_del_address: null,
             order_date: null,
             order_status: null,
             order_status_date: null,
-            order_products: []
+            order_products: [],
+            order_comment: null
         }
     },
     getters,

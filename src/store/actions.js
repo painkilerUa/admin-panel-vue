@@ -32,6 +32,7 @@ export const login = ({ commit }, payload) => {
 export const getOrders = ({commit}, payload) => {
     requestToServer('orders', 'get', payload).then(
         res => {
+            console.log(res);
             commit('setOrders', res)
         }
     ).catch((err) => {
@@ -134,8 +135,9 @@ export const createNewOrder =({commit, state}, payload) => {
     }
     requestToServer('orders', 'post', order).then(
         res => {
-            setInformationMsg({commit}, {'text': 'Заказ был успешно создан. Номер заказа: ' + res.order_id, 'className' : 'alert-success'});
+            setInformationMsg({commit}, {'text': 'Заказ был успешно создан. Номер заказа: ' + res.body.order_id, 'className' : 'alert-success'});
             commit('clearStateNewOrder');
+            router.push('/orders')
         }
     ).catch((err) => {
         console.log(err);
