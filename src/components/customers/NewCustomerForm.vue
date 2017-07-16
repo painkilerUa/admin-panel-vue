@@ -17,15 +17,15 @@
       <div class="row">
           <div class="col-lg-4">
               <label for="customer_main_phone">Телефон</label>
-              <input type="tel" class="form-control" id="customer_main_phone" placeholder="380502747000" v-model.lazy="customer.customer_main_phone">
+              <input type="tel" class="form-control" id="customer_main_phone" placeholder="380502747000" v-model.lazy.number="customer.customer_main_phone">
           </div>
           <div class="col-lg-4">
               <label for="customer_add_phone">Дополнительный телефон</label>
-              <input type="tel" class="form-control" id="customer_add_phone" placeholder="380502747000" v-model.lazy="customer.customer_add_phone">
+              <input type="tel" class="form-control" id="customer_add_phone" placeholder="380502747000" v-model.lazy.number="customer.customer_add_phone">
           </div>
           <div class="col-lg-4">
             <label for="customer_add_1_phone">Дополнительный телефон</label>
-            <input type="tel" class="form-control" id="customer_add_1_phone" placeholder="380502747000" v-model.lazy="customer.customer_add_1_phone">
+            <input type="tel" class="form-control" id="customer_add_1_phone" placeholder="380502747000" v-model.lazy.number="customer.customer_add_1_phone">
           </div>
       </div>
       <div class="row">
@@ -52,7 +52,7 @@
           </div>
           <div class="col-lg-4">
               <label for="customer_del_depart_num">№ отделения</label>
-              <input type="text" class="form-control" id="customer_del_depart_num" placeholder="5" v-model.lazy="customer.customer_del_depart_num">
+              <input type="text" class="form-control" id="customer_del_depart_num" placeholder="5" v-model.lazy.number="customer.customer_del_depart_num">
           </div>
       </div>
       <div class="row">
@@ -69,7 +69,7 @@
       </div>
       <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-default" @click.prevent="createNewCustomer(customer)">Submit</button>
+              <button type="submit" class="btn btn-default" @click.prevent="createNewCustomer(customer)">Создать</button>
           </div>
       </div>
   </form>
@@ -80,18 +80,18 @@
     data(){
       return {
         customer: {
-          customer_surname: '',
-          customer_name: '',
-          customer_patronymic: '',
-          customer_main_phone: '',
-          customer_add_phone: '',
-          customer_add_1_phone: '',
-          customer_email: '',
-          customer_city: '',
-          customer_del_name: '',
-          customer_del_depart_num: '',
-          customer_local_address: '',
-          customer_comment: ''
+          customer_surname: null,
+          customer_name: null,
+          customer_patronymic: null,
+          customer_main_phone: null,
+          customer_add_phone: null,
+          customer_add_1_phone: null,
+          customer_email: null,
+          customer_city: null,
+          customer_del_name: null,
+          customer_del_depart_num: null,
+          customer_local_address: null,
+          customer_comment: null
         }
       }
     },

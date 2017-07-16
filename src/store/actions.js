@@ -33,7 +33,7 @@ export const getOrders = ({commit}, payload) => {
     requestToServer('orders', 'get', payload).then(
         res => {
             console.log(res);
-            commit('setOrders', res)
+            commit('setOrders', res.body)
         }
     ).catch((err) => {
         console.log(err)
@@ -70,7 +70,7 @@ export const createNewCustomer = ({commit}, payload) => {
             ).catch((err) => {
                 console.log(err)
             })
-            commit('setInformationMsg', {text: 'Пользователь был успешно создан', 'className': 'alert-success'});
+            setInformationMsg({commit}, {'text': 'Пользователь был успешно создан', 'className' : 'alert-success'});
             commit('setOrderUserId', res.body)
         }
     ).catch((err) => {

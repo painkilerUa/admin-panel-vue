@@ -3,7 +3,7 @@ export const login = (state) => {
 }
 
 export const setOrders = (state, payload) => {
-    state.orders = [];
+    state.orders = payload;
 }
 
 export  const setCustomers = (state, payload) => {

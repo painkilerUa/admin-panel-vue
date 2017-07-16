@@ -41,3 +41,16 @@ export const getCustomers = (state) => {
 export const getProducts = (state) => {
     return state.products
 }
+// export const getFilteredOrders = (state, payload) => {
+//   console.log(payload)
+//   return state.orders;
+// }
+export const getFilteredOrders = (state, getters) => (payload) => {
+  return state.orders.filter((order) => {
+    if (!payload.main_phone || order.customer_main_phone.toString().indexOf(payload.main_phone) > -1) return true;
+  }).filter((order) => {
+    if (!payload.order_status || payload.order_status === order.order_status) return true;
+  }).filter((order) => {
+    if (!payload.surname|| order.customer_surname.toLowerCase().indexOf(payload.surname.toLowerCase()) > -1) return true;
+  })
+}
