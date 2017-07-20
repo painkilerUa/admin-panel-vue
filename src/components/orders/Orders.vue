@@ -36,27 +36,44 @@
                 <thead>
                     <tr>
                         <th>Дата</th>
+                        <th>Заказ</th>
+                        <th>Сумма</th>
+                        <th>Предоплата</th>
                         <th>ФИО</th>
                         <th>Телефон</th>
+                        <th>Адресс</th>
+                        <th>Статус</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="danger" @click="editOrder(1)" v-for="(order, index) in filteredOrders">
-                        <td>{{dateToString(order.order_date)}}</td>
-                        <td>{{order.customer_surname + ' ' + order.customer_name + ' ' + order.customer_patronymic}}</td>
-                        <td>{{order.customer_main_phone}}</br>{{order.customer_add_phone}}</br>{{order.customer_add_1_phone}}</td>
-                        <td>{{order.order_del_name}} {{order.order_del_depart_num}} г. {{order.order_del_city}}</td>
+                        <td>{{dateToString(order)}}</td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Цена</th>
+                                        <th>Кол-во</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="product in order.products">
+                                        <td>{{product.name}}</td>
+                                        <td>{{product.price}}</td>
+                                        <td>{{product.quantity}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>{{getFullCostOrder(order)}}</td>
+                        <td>{{getOrderPrepayBoolean(order)}}</td>
+                        <td>{{getFullName(order)}}</td>
+                        <td v-html="getAllPhones(order)"></td>
+                        <td>{{getDeliveryAdress(order)}}</td>
+                        <td>{{getOrderStatus(order)}}</td>
                     </tr>
-                    <tr class="success">
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr class="info">
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td></td>
-                    </tr>
+                    //success  info
                 </tbody>
 
             </table>
@@ -84,9 +101,77 @@
             editOrder(x){
                 console.log(x)
             },
-            dateToString(date){
-              let dateObj = new Date(date)
+            dateToString(orderData){
+              let dateObj = new Date(orderData.order_date)
               return dateObj.getDate() + '.' + (+dateObj.getMonth() + 1) + '.' + dateObj.getFullYear()
+            },
+            getFullName(orderData){
+                return (orderData.customer_surname ? orderData.customer_surname: '')
+                    + ' ' + (orderData.customer_name ? orderData.customer_name: '')
+                    + ' ' + (' ' + orderData.customer_patronymic ? orderData.customer_patronymic: '')
+            },
+            getAllPhones(orderData){
+                return orderData.customer_main_phone
+                + (orderData.customer_add_phone ? '</br>' + orderData.customer_add_phone : '')
+                + (orderData.customer_add_1_phone ? '</br>' + orderData.customer_add_1_phone : '')
+            },
+            getDeliveryAdress(orderData){
+                if(orderData.order_del_name){
+                    let deliverName;
+                    switch (orderData.order_del_name) {
+                        case 'new_post':
+                            deliverName = 'Н.П.'
+                            break;
+                        case 'intime':
+                            deliverName = 'Инт'
+                            break;
+                        case 'delivery':
+                            deliverName = 'Дел'
+                            break;
+                    }
+                    return deliverName + ' г. ' + orderData.order_del_city + ' №' + orderData.order_del_depart_num
+                }else{
+                    return 'г. ' + orderData.order_del_city + orderData.order_del_address
+                }
+            },
+            getOrderStatus(orderData){
+                let status;
+                switch (orderData.order_status) {
+                    case 'processing':
+                        status = 'В обработке'
+                        break;
+                    case 'paid':
+                        status = 'Оплачен'
+                        break;
+                    case 'holding':
+                        status = 'Удержан'
+                        break;
+                    case 'sended':
+                        status = 'Отправлен'
+                        break;
+                    case 'completed':
+                        status = 'Выполнен'
+                        break;
+                    case 'closed':
+                        status = 'Закрыт'
+                        break;
+                    case 'confirmed':
+                        status = 'Подтвержден'
+                        break;
+                }
+                return status
+            },
+            getOrderPrepayBoolean(orderData){
+                return orderData.order_prepay === 'true' ? 'Да' : 'Нет'
+            },
+            getFullCostOrder(orderData){
+                return orderData.products.reduce((preProduct, product, i) => {
+                    if(i === 1){
+                        return preProduct.price + product.price
+                    }else{
+                        return preProduct + product.price
+                    }
+                })
             }
         },
         computed:{
@@ -95,7 +180,8 @@
 //              ]),
             filteredOrders(){
                 return this.$store.getters.getFilteredOrders(this.filter)
-            }
+            },
+
         },
         created(){
             this.getOrders({
