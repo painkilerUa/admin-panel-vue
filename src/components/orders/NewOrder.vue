@@ -269,3 +269,8 @@
 <style>
 
 </style>
+
+
+danger
+info
+success

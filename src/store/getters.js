@@ -2,9 +2,11 @@
 export const isAuthorized = (state) => {
         return state.user.authorized
     }
-// export default {
-//     isAuthorized
-// }
+
+export const getUserSettings = (state) => {
+    return state.user
+}
+
 export const getMsg = (state) => {
         return state.msg
     }
@@ -53,4 +55,8 @@ export const getFilteredOrders = (state, getters) => (payload) => {
   }).filter((order) => {
     if (!payload.surname|| order.customer_surname.toLowerCase().indexOf(payload.surname.toLowerCase()) > -1) return true;
   })
+}
+
+export const getOptionsOrderStatus = (state) => {
+    return state.optionsOrderStatus;
 }

@@ -43,11 +43,12 @@
                         <th>Телефон</th>
                         <th>Адресс</th>
                         <th>Статус</th>
+                        <th>ТТН</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="danger" @click="editOrder(1)" v-for="(order, index) in filteredOrders">
-                        <td>{{dateToString(order)}}</td>
+                    <tr :class="getOrderRowClass(order)" v-for="(order, index) in filteredOrders">
+                        <td  @click="editOrder(order)">{{dateToString(order)}}</td>
                         <td>
                             <table>
                                 <thead>
@@ -68,12 +69,16 @@
                         </td>
                         <td>{{getFullCostOrder(order)}}</td>
                         <td>{{getOrderPrepayBoolean(order)}}</td>
-                        <td>{{getFullName(order)}}</td>
                         <td v-html="getAllPhones(order)"></td>
                         <td>{{getDeliveryAdress(order)}}</td>
-                        <td>{{getOrderStatus(order)}}</td>
+                        <td>
+                            <select class="form-control" :value="order.order_status" @change="updateOrderStatus($event)">
+                                <option :value="option.value" v-for="option in optionsOrderStatus">{{option.text}}</option>
+                            </select>
+                        </td>
+                        <td>{{getOrderTrackNum(order)}}</td>
                     </tr>
-                    //success  info
+
                 </tbody>
 
             </table>
@@ -91,15 +96,15 @@
                     main_phone: null,
                     order_status: null,
                     surname: null
-                }
+                },
             }
         },
         methods: {
             ...mapActions([
                 'getOrders'
             ]),
-            editOrder(x){
-                console.log(x)
+            editOrder(orderData){
+                this.$router.push({ path: 'orders/edit', params: { order_id: orderData.order_id }})
             },
             dateToString(orderData){
               let dateObj = new Date(orderData.order_date)
@@ -166,21 +171,57 @@
             },
             getFullCostOrder(orderData){
                 return orderData.products.reduce((preProduct, product, i) => {
-                    if(i === 1){
-                        return preProduct.price + product.price
-                    }else{
-                        return preProduct + product.price
-                    }
-                })
+                    return preProduct + product.price;
+                }, 0)
+            },
+            getOrderRowClass(orderData){
+                let className;
+                switch (orderData.order_status) {
+                    case 'processing':
+                        className = 'danger'
+                        break;
+                    case 'paid':
+                        className = 'danger'
+                        break;
+                    case 'holding':
+                        className = 'danger'
+                        break;
+                    case 'sended':
+                        className = 'danger'
+                        break;
+                    case 'completed':
+                        className = 'info'
+                        break;
+                    case 'closed':
+                        className = 'order-closed'
+                        break;
+                    case 'confirmed':
+                        className = 'success'
+                        break;
+                }
+                return className
+            },
+            getOrderTrackNum(orderData){
+                return orderData.order_tracking_num ? orderData.order_tracking_num : ''
+            },
+            updateOrderStatus(e){
+                console.log(e.target.value)
             }
         },
         computed:{
 //            ...mapGetters([
-//                'getFilteredOrders'
+//                'getUserSettings'
 //              ]),
             filteredOrders(){
                 return this.$store.getters.getFilteredOrders(this.filter)
             },
+            optionsOrderStatus(){
+                let isSuperUser = this.$store.getters.getUserSettings.isSuperUser;
+                return this.$store.getters.getOptionsOrderStatus.filter((option) => {
+                    if(isSuperUser) return true;
+                    return option.value !== 'confirmed'
+                })
+            }
 
         },
         created(){

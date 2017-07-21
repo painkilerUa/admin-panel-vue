@@ -10,8 +10,9 @@ export const store = new Vuex.Store({
     state: {
         user: {
             authorized: false,
-            login: '',
-            pass: ''
+            login: null,
+            pass: null,
+            isSuperUser: false
         },
         orders: [],
         customers: [],
@@ -32,7 +33,17 @@ export const store = new Vuex.Store({
             order_status_date: null,
             order_products: [],
             order_comment: null
-        }
+        },
+        optionsOrderStatus: [
+                   { text: 'В ожидании', value: 'pending' },
+                   { text: 'В обработке', value: 'processing' },
+                   { text: 'Оплачен', value: 'paid' },
+                   { text: 'Удержан', value: 'holding' },
+                   { text: 'Отправлен', value: 'sended' },
+                   { text: 'Выполнен', value: 'completed' },
+                   { text: 'Закрыт', value: 'closed' },
+                   { text: 'Подтвержден', value: 'confirmed' }
+               ]
     },
     getters,
     mutations,
