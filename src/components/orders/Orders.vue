@@ -69,6 +69,7 @@
                         </td>
                         <td>{{getFullCostOrder(order)}}</td>
                         <td>{{getOrderPrepayBoolean(order)}}</td>
+                        <td>{{getFullName(order)}}</td>
                         <td v-html="getAllPhones(order)"></td>
                         <td>{{getDeliveryAdress(order)}}</td>
                         <td>
@@ -78,7 +79,6 @@
                         </td>
                         <td>{{getOrderTrackNum(order)}}</td>
                     </tr>
-
                 </tbody>
 
             </table>
@@ -89,6 +89,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import {getFilteredOrders} from  '../../store/getters'
+    import EditOrder from './EditOrder.vue'
     export default{
         data(){
             return {
@@ -104,7 +105,7 @@
                 'getOrders'
             ]),
             editOrder(orderData){
-                this.$router.push({ path: 'orders/edit', params: { order_id: orderData.order_id }})
+                this.$router.push({ path: '/orders/edit/' + orderData.order_id})
             },
             dateToString(orderData){
               let dateObj = new Date(orderData.order_date)

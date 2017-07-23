@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from  '@/components/Login'
 import Orders from '@/components/orders/Orders'
 import NewOrder from '@/components/orders/NewOrder'
+import EditOrder from '@/components/orders/EditOrder'
 
 Vue.use(Router)
 
@@ -27,6 +28,10 @@ export default new Router({
         {
             path: '/orders/new',
             component: NewOrder
+        },
+        {
+            path: '/orders/edit/:order_id',
+            component: EditOrder
         }
     ]
 })

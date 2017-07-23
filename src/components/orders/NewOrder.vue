@@ -239,7 +239,7 @@
                     if(this.filteredProducts.length > 5){
                         break;
                     }else{
-                        if($event.target.value !== '' && product[filterBy].indexOf($event.target.value) > -1){
+                        if($event.target.value !== '' && product[filterBy].toLowerCase().indexOf($event.target.value.toLowerCase()) > -1){
                             this.filteredProducts.push(product)
                         }
                     }
@@ -269,8 +269,3 @@
 <style>
 
 </style>
-
-
-danger
-info
-success

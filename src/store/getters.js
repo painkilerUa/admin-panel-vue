@@ -60,3 +60,7 @@ export const getFilteredOrders = (state, getters) => (payload) => {
 export const getOptionsOrderStatus = (state) => {
     return state.optionsOrderStatus;
 }
+
+export const getOrderById = (state, getters) => (payload) => {
+  return state.orders.find(order => order.order_id == payload)
+}
