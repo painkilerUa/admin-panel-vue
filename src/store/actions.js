@@ -32,7 +32,7 @@ export const login = ({ commit }, payload) => {
 export const getOrders = ({commit}, payload) => {
     requestToServer('orders', 'get', payload).then(
         res => {
-            console.log(res);
+            console.log('getOrders', res);
             commit('setOrders', res.body)
         }
     ).catch((err) => {
@@ -142,5 +142,19 @@ export const createNewOrder =({commit, state}, payload) => {
     ).catch((err) => {
         console.log(err);
         setInformationMsg({commit}, {'text': 'Заказ не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+    })
+}
+
+export const editOrderAction =({commit, state}, payload) => {
+    requestToServer('orders', 'put', payload).then(
+        res => {
+            console.log('editOrderAction', res)
+            setInformationMsg({commit}, {'text': 'Заказ был успешно обновлен', 'className' : 'alert-success'});
+            getOrders({commit})
+            router.push('/orders')
+        }
+    ).catch((err) => {
+        console.log(err);
+        setInformationMsg({commit}, {'text': 'Заказ не был обновлен. Проверте правильность введенных данных', 'className' : 'alert-danger'});
     })
 }

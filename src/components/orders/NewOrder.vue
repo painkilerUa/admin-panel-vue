@@ -1,8 +1,5 @@
 <template>
     <div class="container">
-        <div class="alert" :class="getMsg.className" role="alert" v-show="getMsg.text">
-            <p>{{getMsg.text}}</p>
-        </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">

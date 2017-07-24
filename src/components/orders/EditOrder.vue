@@ -119,7 +119,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <button type="button" class="btn btn-default" @click="editOrder">Редактировать</button>
+                <button type="button" class="btn btn-default" @click="editOrderAction(order)">Редактировать</button>
             </div>
         </div>
     </div>
@@ -137,6 +137,7 @@
     },
     methods: {
         ...mapActions([
+            'editOrderAction'
         ]),
         filterProducts($event, filterBy){
             this.filteredProducts = [];
@@ -169,9 +170,6 @@
                   break;
                 }
             }
-        },
-        editOrder(){
-
         }
     },
     created(){
