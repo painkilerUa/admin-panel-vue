@@ -69,41 +69,53 @@
       </div>
       <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-default" @click.prevent="createNewCustomer(customer)">Создать</button>
+              <button type="submit" class="btn btn-default" @click.prevent="createOrUpdateCustomer">Создать</button>
           </div>
       </div>
   </form>
 </template>
 <script>
-  import {mapActions} from 'vuex'
-  export default{
-    data(){
-      return {
-        customer: {
-          customer_surname: null,
-          customer_name: null,
-          customer_patronymic: null,
-          customer_main_phone: null,
-          customer_add_phone: null,
-          customer_add_1_phone: null,
-          customer_email: null,
-          customer_city: null,
-          customer_del_name: null,
-          customer_del_depart_num: null,
-          customer_local_address: null,
-          customer_comment: null
-        }
-      }
-    },
-    methods: {
-        ...mapActions([
+    import {mapActions} from 'vuex'
+    export default{
+        data(){
+            return {
+                customer: {
+                    customer_surname: null,
+                    customer_name: null,
+                    customer_patronymic: null,
+                    customer_main_phone: null,
+                    customer_add_phone: null,
+                    customer_add_1_phone: null,
+                    customer_email: null,
+                    customer_city: null,
+                    customer_del_name: null,
+                    customer_del_depart_num: null,
+                    customer_local_address: null,
+                    customer_comment: null
+                }
+            }
+        },
+        methods: {
+            ...mapActions([
             'getOrders',
-            'createNewCustomer'
-        ]),
-    },
-    created(){
+            'createNewCustomer',
+            'updateCustomer'
+            ]),
+            createOrUpdateCustomer () {
+                if(this.$route.params.customer_id !== undefined){
+                    this.updateCustomer(this.customer)
+                }else{
+                    this.createNewCustomer(this.customer)
+                }
+            }
+        },
+        created(){
+            if(this.$route.params.customer_id !== undefined){
+                let editingCustomer = this.$store.getters.getCustomerById(this.$route.params.customer_id);
+                this.customer = Object.assign(editingCustomer);
+            }
+        }
     }
-  }
 </script>
 
 <style>

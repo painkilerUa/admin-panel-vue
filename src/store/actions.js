@@ -86,6 +86,7 @@ export const createNewProductAction = ({commit}, payload) => {
                 response => {
                     commit('setProducts', response.bodyText);
                     commit('addCreatedProductToOrder', res.body['product_id'])
+                    router.push('/products')
                 }
             ).catch((err) => {
                 console.log(err)
@@ -156,5 +157,39 @@ export const editOrderAction =({commit, state}, payload) => {
     ).catch((err) => {
         console.log(err);
         setInformationMsg({commit}, {'text': 'Заказ не был обновлен. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+    })
+}
+
+export const updateCustomer = ({commit, state}, payload) => {
+    requestToServer('customers', 'put', payload).then(
+        res => {
+            console.log('updateCustomer', res)
+            setInformationMsg({commit}, {'text': 'Данные клиента были успешно обновлены', 'className' : 'alert-success'});
+            getCustomers({commit})
+            router.push('/customers')
+        }
+    ).catch((err) => {
+        console.log(err);
+        setInformationMsg({commit}, {'text': 'Данные клиента не был обновлен. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+    })
+}
+
+export const updateProductAction = ({commit}, payload) => {
+    requestToServer('products', 'put', payload).then(
+        res => {
+            console.log('updateProductAction', res)
+            requestToServer('products', 'get').then(
+                response => {
+                    commit('setProducts', response.bodyText);
+                    router.push('/products')
+                }
+            ).catch((err) => {
+                console.log('updateProductAction', err)
+            });
+            setInformationMsg({commit}, {'text': 'Продукт был успешно обновлен', 'className' : 'alert-success'});
+        }
+    ).catch((err) => {
+        console.log('updateProductAction', err);
+        setInformationMsg({commit}, {'text': 'Продукт не был обновлен. Проверте правильность введенных данных', 'className' : 'alert-danger'});
     })
 }

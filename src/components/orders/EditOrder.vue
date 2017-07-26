@@ -42,7 +42,7 @@
               <input type="text" v-model.number="product.quantity">
             </div>
             <div class="col-md-1">
-                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" @click="removeSelectedProduct(product.id)"></span>
+                <!--<span class="glyphicon glyphicon-remove-sign" aria-hidden="true" @click="removeSelectedProduct(product.id)"></span>-->
             </div>
         </div>
         <div class="row">
@@ -112,6 +112,14 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-2">
+                <label for="order-racking-num">TTH</label>
+                <input type="text" class="form-control" id="order-racking-num" placeholder="" v-model="order.order_tracking_num">
+            </div>
+            <div class="col-lg-10">
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12">
                 <label for="order_comment">Комментарий</label>
                 <textarea type="text" class="form-control" id="order_comment" v-model="order.order_comment"></textarea>
@@ -119,7 +127,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <button type="button" class="btn btn-default" @click="editOrderAction(order)">Редактировать</button>
+                <button type="button" class="btn btn-default" @click="editOrderAction({method: 'fullEditing', data: order})">Редактировать</button>
             </div>
         </div>
     </div>

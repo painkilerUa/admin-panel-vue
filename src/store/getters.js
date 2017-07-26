@@ -64,3 +64,27 @@ export const getOptionsOrderStatus = (state) => {
 export const getOrderById = (state, getters) => (payload) => {
   return state.orders.find(order => order.order_id == payload)
 }
+
+export const getFilteredCustomers = (state, getters) => (payload) => {
+    return state.customers.filter((customer) => {
+        if (!payload.main_phone || customer.customer_main_phone.toString().indexOf(payload.main_phone) > -1) return true;
+    }).filter((customer) => {
+        if (!payload.surname|| customer.customer_surname.toLowerCase().indexOf(payload.surname.toLowerCase()) > -1) return true;
+    })
+}
+
+export const getCustomerById = (state, getters) => (payload) => {
+    return state.customers.find(customer => customer.id == payload)
+}
+
+export const getFilteredProducts = (state, getters) => (payload) => {
+    return state.products.filter((product) => {
+        if (!payload.vendor || product.vendor.toLowerCase().indexOf(payload.vendor) > -1) return true;
+    }).filter((product) => {
+        if (!payload.name|| product.name.toLowerCase().indexOf(payload.name.toLowerCase()) > -1) return true;
+    })
+}
+
+export const getProductById = (state, getters) => (payload) => {
+    return state.products.find(product => product.id == payload)
+}

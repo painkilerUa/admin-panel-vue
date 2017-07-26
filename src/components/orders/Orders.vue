@@ -14,7 +14,10 @@
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Основной телефон" v-model="filter.main_phone">
+                    <input type="text" class="form-control" placeholder="Основной телефон" v-model="filter.main_phone">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -73,7 +76,7 @@
                         <td v-html="getAllPhones(order)"></td>
                         <td>{{getDeliveryAdress(order)}}</td>
                         <td>
-                            <select class="form-control" :value="order.order_status" @change="updateOrderStatus($event)">
+                            <select class="form-control" :value="order.order_status" @change="editOrderAction({method: 'changeStatusOrder', data: {order_status: $event.target.value, order_id: order.order_id}})">
                                 <option :value="option.value" v-for="option in optionsOrderStatus">{{option.text}}</option>
                             </select>
                         </td>
@@ -102,7 +105,8 @@
         },
         methods: {
             ...mapActions([
-                'getOrders'
+                'getOrders',
+                'editOrderAction'
             ]),
             editOrder(orderData){
                 this.$router.push({ path: '/orders/edit/' + orderData.order_id})
@@ -204,9 +208,6 @@
             },
             getOrderTrackNum(orderData){
                 return orderData.order_tracking_num ? orderData.order_tracking_num : ''
-            },
-            updateOrderStatus(e){
-                console.log(e.target.value)
             }
         },
         computed:{

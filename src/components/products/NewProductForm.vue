@@ -97,7 +97,7 @@
       </div>
       <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-default" @click.prevent="createNewProduct()">Создать</button>
+              <button type="submit" class="btn btn-default" @click.prevent="createOrUpdateProduct()">Создать</button>
           </div>
       </div>
   </form>
@@ -136,17 +136,22 @@
     methods: {
         ...mapActions([
             'createNewProductAction',
+            'updateProductAction',
             'setInformationMsg'
         ]),
         upload(e){
             this.formData.set('images', e.target.files[0])
         },
-        createNewProduct(){
+        createOrUpdateProduct(){
             if(!this.checkInsertedValue()) return;
 
             let product = JSON.stringify(this.product);
             this.formData.set('props', product);
-            this.createNewProductAction(this.formData)
+            if(this.$route.params.product_id !== undefined){
+                this.updateProductAction(this.formData)
+            }else{
+                this.createNewProductAction(this.formData)
+            }
         },
         checkInsertedValue(){
 //            if(this.product.name.length > 255 || this.product.short_description.length > 10000 || this.product.description.length > 10000 || this.product.meta_title > 255 || this.product.vendor > 100){
@@ -183,7 +188,10 @@
         }
     },
     created(){
-//      this.getOrders()
+        if(this.$route.params.product_id !== undefined){
+            let editingProduct = this.$store.getters.getProductById(this.$route.params.product_id);
+            this.product = Object.assign(editingProduct);
+        }
     }
   }
 </script>
