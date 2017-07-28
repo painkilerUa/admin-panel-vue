@@ -63,7 +63,6 @@
             <div class="col-lg-2">
                 <label for="order-prepay">Статус предоплаты</label>
                 <select class="form-control" id="order-prepay" v-model="order.order_prepay">
-                    <option value="" selected></option>
                     <option value="false">Отсутствует</option>
                     <option value="pending">Присутствует</option>
                     <option value="waiting">Присутствует(отправлено СМС)</option>

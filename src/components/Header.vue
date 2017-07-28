@@ -15,6 +15,7 @@
                     <router-link :to="'/orders'" tag="li" active-class="active"><a>Заказы</a></router-link>
                     <router-link :to="'/customers'" tag="li" active-class="active"><a>Клиенты</a></router-link>
                     <router-link :to="'/products'" tag="li" active-class="active"><a>Товары</a></router-link>
+                    <router-link :to="'/prices'" tag="li" active-class="active"><a>Прайсы</a></router-link>
                     <li>Войти</li>
                     <li>Выйти</li>
                     <!--<li class="dropdown">-->

@@ -9,6 +9,7 @@ import Customers from '@/components/customers/Customers'
 import NewCustomer from '@/components/customers/NewCustomerForm'
 import Products from '@/components/products/Products'
 import NewProduct from '@/components/products/NewProductForm'
+import UpdatePrice from '@/components/prices/UpdatePrice'
 
 Vue.use(Router)
 
@@ -60,6 +61,10 @@ export default new Router({
         {
             path: '/products/edit/:product_id',
             component: NewProduct
+        },
+        {
+            path: '/prices',
+            component: UpdatePrice
         }
     ]
 })

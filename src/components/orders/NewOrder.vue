@@ -126,8 +126,7 @@
             <div class="col-lg-2">
                 <label for="order-prepay">Статус предоплаты</label>
                 <select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">
-                    <option value="" selected></option>
-                    <option value="false">Отсутствует</option>
+                    <option value="false" selected>Отсутствует</option>
                     <option value="pending">Присутствует</option>
                     <option value="waiting">Присутствует(отправлено СМС)</option>
                     <option value="true">Оплачено</option>
