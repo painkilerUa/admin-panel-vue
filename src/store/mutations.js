@@ -1,5 +1,18 @@
 export const login = (state) => {
-    state.user.authorized = true
+    state.user.authorized = true;
+}
+
+export const logout = (state) => {
+    let user = state.user;
+    user.authorized = false;
+    user.isSuperUser = false;
+
+    state.orders = [];
+    state.customers = [];
+    state.products = [];
+    
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
 }
 
 export const setOrders = (state, payload) => {

@@ -20,13 +20,20 @@ export const login = ({ commit }, payload) => {
             console.log(resolve)
             localStorage.setItem('id_token', resolve.body.id_token);
             localStorage.setItem('access_token', resolve.body.access_token);
-            commit('login')
+            commit('login');
+            getOrders({commit});
+            getCustomers({commit});
+            getProducts({commit});
             router.push('/home')
         }
     ).catch((err) => {
 //        router.push('/home')
         //commit('error_notification')
     })
+}
+
+export const logout = ({ commit }, payload) => {
+    commit('logout')
 }
 
 export const getOrders = ({commit}, payload) => {
@@ -191,5 +198,18 @@ export const updateProductAction = ({commit}, payload) => {
     ).catch((err) => {
         console.log('updateProductAction', err);
         setInformationMsg({commit}, {'text': 'Продукт не был обновлен. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+    })
+}
+
+export const uploadPricesOnServer = ({commit}, payload) => {
+    requestToServer('products-prices', 'put', payload).then(
+        res => {
+            console.log(res)
+
+//            setInformationMsg({commit}, {'text': 'Продукт был успешно создан', 'className' : 'alert-success'});
+        }
+    ).catch((err) => {
+        console.log(err);
+//        setInformationMsg({commit}, {'text': 'Продукт не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
     })
 }
