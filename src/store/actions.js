@@ -137,7 +137,7 @@ export const createNewOrder =({commit, state}, payload) => {
     let date = +new Date();
     order['order_date'] = date;
     order['order_status_date'] = date;
-    if(!state.new_order.order_del_city || !state.new_order.order_prepay || !state.new_order.order_products.length || !state.new_order.order_status || !state.new_order.order_user_id){
+    if(!state.new_order.order_del_city || !state.new_order.order_products.length || !state.new_order.order_status || !state.new_order.order_user_id){
         setInformationMsg({commit}, {'text': 'Заказ не был создан. Не все поля заполнены.', 'className' : 'alert-danger'});
         return;
     }
@@ -204,12 +204,28 @@ export const updateProductAction = ({commit}, payload) => {
 export const uploadPricesOnServer = ({commit}, payload) => {
     requestToServer('products-prices', 'put', payload).then(
         res => {
-            console.log(res)
-
-//            setInformationMsg({commit}, {'text': 'Продукт был успешно создан', 'className' : 'alert-success'});
+            let text;
+            console.log('products-prices', res)
+            if(res.body.type === 'prices_file'){
+                text = 'Прайсы были успешно загружены'
+            }else if(res.body.type === 'up_time'){
+                text = 'Цены были успешно обновлены'
+                commit('setUpdatePriceDate', res.body.data);
+            }
+            setInformationMsg({commit}, {'text': text, 'className' : 'alert-success'});
         }
     ).catch((err) => {
         console.log(err);
-//        setInformationMsg({commit}, {'text': 'Продукт не был создан. Проверте правильность введенных данных', 'className' : 'alert-danger'});
+        setInformationMsg({commit}, {'text': 'Прайсы не были успешно загружены', 'className' : 'alert-danger'});
+    })
+}
+
+export const setLastUpdatePricesDate = ({commit}, payload) => {
+    requestToServer('products-prices', 'get', payload).then(
+        res => {
+            commit('setUpdatePriceDate', res.body.data);
+        }
+    ).catch((err) => {
+        console.log('setLastUpdatePricesDate', err);
     })
 }

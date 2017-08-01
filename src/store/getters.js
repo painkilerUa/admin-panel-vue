@@ -88,3 +88,7 @@ export const getFilteredProducts = (state, getters) => (payload) => {
 export const getProductById = (state, getters) => (payload) => {
     return state.products.find(product => product.id == payload)
 }
+
+export const getLastUpdatePricesDate = (state) => {
+    return state.pricesInfo.lastUpdateDate
+}

@@ -91,3 +91,7 @@ export const clearStateNewOrder = (state, payload) => {
     }
     order['order_products'] = [];
 }
+
+export const setUpdatePriceDate = (state, payload) => {
+    state.pricesInfo.lastUpdateDate = payload;
+}

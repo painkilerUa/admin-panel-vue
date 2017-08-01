@@ -44,7 +44,7 @@ export const store = new Vuex.Store({
                    { text: 'Закрыт', value: 'closed' },
                    { text: 'Подтвержден', value: 'confirmed' }
                ],
-        updatePriceInfo: {
+        pricesInfo: {
             lastUpdateDate: null
         }
     },

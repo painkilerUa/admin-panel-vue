@@ -13,6 +13,14 @@
             <div class="col-md-4">
             </div>
             <div class="col-md-4">
+                <span>{{getLastUpdatePricesDate}}</span>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <button type="button" class="btn btn-default" @click="uploadPricesOnServer">Обновить</button>
             </div>
             <div class="col-md-4"></div>
@@ -33,7 +41,8 @@
         },
         methods: {
             ...mapActions([
-                'uploadPricesOnServer'
+                'uploadPricesOnServer',
+                'setLastUpdatePricesDate'
             ]),
             upload(event){
                 console.log(event.target.files)
@@ -50,6 +59,7 @@
         },
         computed: {
             ...mapGetters([
+                'getLastUpdatePricesDate'
             ])
         }
     }

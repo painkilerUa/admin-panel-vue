@@ -124,13 +124,17 @@
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <label for="order-prepay">Статус предоплаты</label>
-                <select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">
-                    <option value="false" selected>Отсутствует</option>
-                    <option value="pending">Присутствует</option>
-                    <option value="waiting">Присутствует(отправлено СМС)</option>
-                    <option value="true">Оплачено</option>
-                </select>
+                <div class="input-group">
+                    <label for="order-del-city">Предоплата</label>
+                    <input type="text" class="form-control" id="order-prepay" placeholder="" value="0" @change="setValueNewOrder({'order_prepay' : $event})">
+                </div>
+                <!--<label for="order-prepay">Статус предоплаты</label>-->
+                <!--<select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">-->
+                    <!--<option value="false" selected>Отсутствует</option>-->
+                    <!--<option value="pending">Присутствует</option>-->
+                    <!--<option value="waiting">Присутствует(отправлено СМС)</option>-->
+                    <!--<option value="true">Оплачено</option>-->
+                <!--</select>-->
             </div>
             <div class="col-md-3">
                 <div class="input-group">
@@ -262,6 +266,9 @@
     }
 </script>
 
-<style>
 
+<style scoped>
+    .row {
+        margin: 10px 0;
+    }
 </style>
