@@ -113,7 +113,7 @@
             },
             dateToString(orderData){
               let dateObj = new Date(orderData.order_date)
-              return dateObj.getDate() + '.' + (+dateObj.getMonth() + 1) + '.' + dateObj.getFullYear()
+              return dateObj.getDate() + '.' + (+dateObj.getMonth() + 1) + '.' + dateObj.getFullYear().slice(0, -2)
             },
             getFullName(orderData){
                 return (orderData.customer_surname ? orderData.customer_surname: '')
@@ -172,7 +172,13 @@
                 return status
             },
             getOrderPrepayBoolean(orderData){
-                return orderData.order_prepay === 'true' ? 'Да' : 'Нет'
+                if(!orderData.order_prepay){
+                    return 'Нет'
+                }else if(orderData.order_prepay == 1){
+                    return '?'
+                }else{
+                    return orderData.order_prepay
+                }
             },
             getFullCostOrder(orderData){
                 return orderData.products.reduce((preProduct, product, i) => {
@@ -236,6 +242,8 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .row {
+        margin: 10px 0;
+    }
 </style>

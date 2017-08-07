@@ -1,8 +1,8 @@
 <template>
     <div>
         <app-main-menu></app-main-menu>
-        <p>{{isAuthorized}}</p>
-        <button @click="logout">Logout</button>
+        <!--<p>{{isAuthorized}}</p>-->
+        <!--<button @click="logout">Logout</button>-->
     </div>
 
 </template>

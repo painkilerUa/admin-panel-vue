@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">MKPP</a>
+                <a class="navbar-brand">MKPP</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -16,8 +16,8 @@
                     <router-link :to="'/customers'" tag="li" active-class="active"><a>Клиенты</a></router-link>
                     <router-link :to="'/products'" tag="li" active-class="active"><a>Товары</a></router-link>
                     <router-link :to="'/prices'" tag="li" active-class="active"><a>Прайсы</a></router-link>
-                    <li>Войти</li>
-                    <li>Выйти</li>
+                    <li v-if="!getUserSettings.authorized" @click="$router.push('/login')"><a>Войти</a></li>
+                    <li v-if="getUserSettings.authorized" @click="logout"><a>Выйти</a></li>
                     <!--<li class="dropdown">-->
                         <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">List3 <span class="caret"></span></a>-->
                         <!--<ul class="dropdown-menu">-->
@@ -37,14 +37,26 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex'
     export default {
         data(){
             return {
 
             }
+        },
+        methods: {
+            ...mapActions([
+                'logout'
+            ])
+        },
+        computed: {
+            ...mapGetters([
+                'getUserSettings'
+            ])
         }
     }
 </script>
 <style>
 
 </style>
+

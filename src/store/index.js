@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
         customers: [],
         products: [],
         msg: {
-            text: '',
+            text: null,
             className: {'alert-success': false, 'alert-danger': false}
         },
         new_order: {
@@ -43,7 +43,10 @@ export const store = new Vuex.Store({
                    { text: 'Выполнен', value: 'completed' },
                    { text: 'Закрыт', value: 'closed' },
                    { text: 'Подтвержден', value: 'confirmed' }
-               ]
+               ],
+        pricesInfo: {
+            lastUpdateDate: null
+        }
     },
     getters,
     mutations,
