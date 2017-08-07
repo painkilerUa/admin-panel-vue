@@ -9,6 +9,11 @@
             </div>
             <div class="col-md-4"></div>
         </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><button type="submit" class="btn btn-default" @click.prevent="createOrUpdateProduct()">Обновить</button></div>
+            <div class="col-md-4"></div>
+        </div>
     </div>
 </template>
 
@@ -18,7 +23,7 @@
     export default{
         data(){
             return {
-
+              formData: new FormData()
             }
         },
         components: {
@@ -26,7 +31,9 @@
         methods: {
             ...mapActions([
             ]),
-
+            upload(e){
+              this.formData.set('images', e.target.files)
+            }
         },
         created(){
 
