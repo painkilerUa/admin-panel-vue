@@ -223,7 +223,7 @@ export const uploadPricesOnServer = ({commit}, payload) => {
 export const setLastUpdatePricesDate = ({commit}, payload) => {
     requestToServer('products-prices', 'get', payload).then(
         res => {
-            commit('setUpdatePriceDate', res.body.data);
+            commit('setUpdatePriceDate', res.body.time);
         }
     ).catch((err) => {
         console.log('setLastUpdatePricesDate', err);

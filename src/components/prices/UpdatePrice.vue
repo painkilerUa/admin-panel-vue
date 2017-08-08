@@ -1,19 +1,26 @@
 <template>
     <div class="container">
+        <div class="row wrap-last-date-price-update">
+            <div class="col-md-4">
+                <span>Последнее обновление прайса: {{getLastUpdatePricesDate}}</span>
+            </div>
+            <div class="col-md-6"></div>
+            <ul class="col-md-2">
+                <li>busmarket.xlsx</li>
+                <li>maslotochka.xlsx</li>
+                <li>omega.xlsx</li>
+                <li>asg.xlsx</li>
+                <li>kaminion.xlsx</li>
+                <li>vladislav.xlsx</li>
+                <li>mkpp.xlsx</li>
+            </ul>
+        </div>
         <div class="row">
             <div class="col-md-4">
                 <label for="file-price">Прайсы</label>
                 <input type="file" id="file-price" multiple @change="upload($event)">
             </div>
             <div class="col-md-4">
-            </div>
-            <div class="col-md-4"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                <span>{{getLastUpdatePricesDate}}</span>
             </div>
             <div class="col-md-4"></div>
         </div>
@@ -55,7 +62,7 @@
             }
         },
         created(){
-
+            this.setLastUpdatePricesDate()
         },
         computed: {
             ...mapGetters([
@@ -65,6 +72,8 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .wrap-last-date-price-update{
+      text-align: center;
+    }
 </style>
