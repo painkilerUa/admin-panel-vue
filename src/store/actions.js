@@ -93,7 +93,7 @@ export const createNewProductAction = ({commit}, payload) => {
                 response => {
                     commit('setProducts', response.bodyText);
                     commit('addCreatedProductToOrder', res.body['product_id'])
-                    router.push('/products')
+                    this.$route.params.product_id ? router.push('/products') : ''
                 }
             ).catch((err) => {
                 console.log(err)

@@ -95,7 +95,7 @@
               <input type="file" id="product-image" @change="upload($event)">
           </div>
       </div>
-      <div class="row">
+      <div class="row wrap-button-create-new-product">
           <div class="col-lg-12">
               <button type="submit" class="btn btn-default" @click.prevent="createOrUpdateProduct()">Создать</button>
           </div>
@@ -196,6 +196,11 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+    .row{
+        margin-bottom: 20px;
+    }
+    .wrap-button-create-new-product{
+        text-align: center;
+    }
 </style>
