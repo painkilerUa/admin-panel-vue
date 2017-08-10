@@ -208,9 +208,8 @@ export const uploadPricesOnServer = ({commit}, payload) => {
             console.log('products-prices', res)
             if(res.body.type === 'prices_file'){
                 text = 'Прайсы были успешно загружены'
-            }else if(res.body.type === 'up_time'){
-                text = 'Цены были успешно обновлены'
-                commit('setUpdatePriceDate', res.body.data);
+            }else if(res.body.type === 'process_started'){
+                text = 'Обновление прайса началось';
             }
             setInformationMsg({commit}, {'text': text, 'className' : 'alert-success'});
         }
