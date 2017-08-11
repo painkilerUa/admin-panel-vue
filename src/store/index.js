@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
         },
         new_order: {
             order_user_id: null,
-            order_prepay: null,
+            order_prepay: 0,
             order_del_city: null,
             order_del_name: null,
             order_del_depart_num: null,

@@ -38,14 +38,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Дата</th>
-                        <th>Заказ</th>
-                        <th>Сумма</th>
-                        <th>Предоплата</th>
-                        <th>ФИО</th>
-                        <th>Телефон</th>
+                        <th width="60px">Дата</th>
+                        <th width="300px">Заказ</th>
+                        <th class="order-full-cost-column">грн</th>
+                        <th>Пр</th>
+                        <th width="100px">ФИО</th>
+                        <th width="110px">Телефон</th>
                         <th>Адресс</th>
-                        <th>Статус</th>
+                        <th width="110px">Статус</th>
                         <th>ТТН</th>
                     </tr>
                 </thead>
@@ -56,9 +56,9 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Товар</th>
-                                        <th>Цена</th>
-                                        <th>Кол-во</th>
+                                        <th  width="240px">Товар</th>
+                                        <th width="40px">грн</th>
+                                        <th width="20px">шт</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,13 +70,13 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td>{{getFullCostOrder(order)}}</td>
-                        <td>{{getOrderPrepayBoolean(order)}}</td>
+                        <td class="order-full-cost-column">{{getFullCostOrder(order)}}</td>
+                        <td class="orders-prepay-column">{{getOrderPrepayBoolean(order)}}</td>
                         <td>{{getFullName(order)}}</td>
                         <td v-html="getAllPhones(order)"></td>
                         <td>{{getDeliveryAdress(order)}}</td>
                         <td>
-                            <select class="form-control" :value="order.order_status" @change="editOrderAction({method: 'changeStatusOrder', data: {order_status: $event.target.value, order_id: order.order_id}})">
+                            <select class="form-control order-status-input" :value="order.order_status" @change="editOrderAction({method: 'changeStatusOrder', data: {order_status: $event.target.value, order_id: order.order_id}})">
                                 <option :value="option.value" v-for="option in optionsOrderStatus">{{option.text}}</option>
                             </select>
                         </td>
@@ -113,17 +113,17 @@
             },
             dateToString(orderData){
               let dateObj = new Date(orderData.order_date)
-              return dateObj.getDate() + '.' + (+dateObj.getMonth() + 1) + '.' + dateObj.getFullYear().slice(0, -2)
+              return (dateObj.getDate().toString().length < 2 ? '0' + dateObj.getDate() : dateObj.getDate()) + '.' + ((+dateObj.getMonth() + 1).toString().length < 2 ? '0' + (+dateObj.getMonth() + 1) : (+dateObj.getMonth() + 1)) + '.' + dateObj.getFullYear().toString().slice(2, 4)
             },
             getFullName(orderData){
                 return (orderData.customer_surname ? orderData.customer_surname: '')
                     + ' ' + (orderData.customer_name ? orderData.customer_name: '')
-                    + ' ' + (' ' + orderData.customer_patronymic ? orderData.customer_patronymic: '')
+                    + ' ' + (orderData.customer_patronymic ? orderData.customer_patronymic: '')
             },
             getAllPhones(orderData){
                 return orderData.customer_main_phone
-                + (orderData.customer_add_phone ? '</br>' + orderData.customer_add_phone : '')
-                + (orderData.customer_add_1_phone ? '</br>' + orderData.customer_add_1_phone : '')
+                    + (orderData.customer_add_phone ? '</br>' + orderData.customer_add_phone : '')
+                    + (orderData.customer_add_1_phone ? '</br>' + orderData.customer_add_1_phone : '')
             },
             getDeliveryAdress(orderData){
                 if(orderData.order_del_name){
@@ -181,9 +181,10 @@
                 }
             },
             getFullCostOrder(orderData){
-                return orderData.products.reduce((preProduct, product, i) => {
-                    return preProduct + product.price;
-                }, 0)
+                let fullCost = orderData.products.reduce((preProduct, product, i) => {
+                    return preProduct + product.price*product.quantity;
+                }, 0);
+                return Math.round(fullCost);
             },
             getOrderRowClass(orderData){
                 let className;
@@ -226,8 +227,9 @@
             optionsOrderStatus(){
                 let isSuperUser = this.$store.getters.getUserSettings.isSuperUser;
                 return this.$store.getters.getOptionsOrderStatus.filter((option) => {
-                    if(isSuperUser) return true;
-                    return option.value !== 'confirmed'
+                    return true;
+//                    if(isSuperUser) return true;
+//                    return option.value !== 'confirmed'
                 })
             }
 
@@ -245,5 +247,15 @@
 <style scoped>
     .row {
         margin: 10px 0;
+    }
+    .order-status-input{
+        padding: 3px;
+        font-size: 12px;
+    }
+    .order-full-cost-column{
+        vertical-align: middle;
+    }
+    .orders-prepay-column{
+        vertical-align: middle;
     }
 </style>

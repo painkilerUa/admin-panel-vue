@@ -39,7 +39,7 @@
               {{product.price}}
             </div>
             <div class="col-md-2">
-                <span class="glyphicon glyphicon-ok-sign" @click="addChosenProduct({id: product.id, quantity: 1, price: product.price, purchase_price: product.purchase_price})"></span>
+                <span class="glyphicon glyphicon-ok-sign glyphicon-add-item" @click="addChosenProduct({id: product.id, quantity: 1, price: product.price, purchase_price: product.purchase_price})"></span>
             </div>
         </div>
         <div class="row filter-group-orders">
@@ -63,7 +63,7 @@
             <div class="col-md-3">{{getDeliveryAdress(customer)}}</div>
             <div class="col-md-2">{{customer.customer_comment}}</div>
             <div class="col-md-1">
-                <span class="glyphicon glyphicon-ok-sign" @click="addChosenCustomer(customer.id)"></span>
+                <span class="glyphicon glyphicon-ok-sign glyphicon-add-item" @click="addChosenCustomer(customer.id)"></span>
             </div>
         </div>
         <div class="row">
@@ -77,11 +77,14 @@
         <div class="wrapper-new-order">
             <div class="wrapper-order-products">
                 <div class="row" v-if="getSelectedProductsDetail.length">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                       Наименование
                     </div>
                     <div class="col-md-2">
                       Артикул
+                    </div>
+                    <div class="col-md-1">
+                        Кол-во
                     </div>
                     <div class="col-md-2">
                       Цена
@@ -90,11 +93,14 @@
                     </div>
                 </div>
                 <div class="row" v-for="product in getSelectedProductsDetail">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                       {{product.name}}
                     </div>
                     <div class="col-md-2">
                       {{product.vendor}}
+                    </div>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" :value="product.quantity" @input="changeQuantityInputValue({id: product.id, quantity: $event.target.value})" >
                     </div>
                     <div class="col-md-2">
                       {{product.price}}
@@ -108,7 +114,7 @@
                 <div class="row" v-if="getSelectedCustomerDetail">
                     <div class="col-md-4">
                         <span>
-                            {{getSelectedCustomerDetail.customer_surname + ' ' + getSelectedCustomerDetail.customer_name + ' ' + getSelectedCustomerDetail.customer_patronymic}}
+                            {{getFullName(getSelectedCustomerDetail)}}
                         </span>
                     </div>
                     <div class="col-md-1">
@@ -154,26 +160,11 @@
                 <!--</div>-->
             </div>
             <div class="row">
-              <div class="col-lg-2">
-                <div class="input-group">
-                  <label for="order-del-city">Предоплата</label>
-                  <input type="text" class="form-control" id="order-prepay" placeholder="" value="0" @change="setValueNewOrder({'order_prepay' : $event})">
-                </div>
-                <!--<label for="order-prepay">Статус предоплаты</label>-->
-                <!--<select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">-->
-                <!--<option value="false" selected>Отсутствует</option>-->
-                <!--<option value="pending">Присутствует</option>-->
-                <!--<option value="waiting">Присутствует(отправлено СМС)</option>-->
-                <!--<option value="true">Оплачено</option>-->
-                <!--</select>-->
-              </div>
               <div class="col-md-3">
-                <div class="input-group">
                   <label for="order-del-city">Город</label>
                   <input type="text" class="form-control" id="order-del-city" placeholder="" @change="setValueNewOrder({'order_del_city' : $event})">
-                </div>
               </div>
-              <div class="col-lg-2">
+              <div class="col-md-2">
                 <label for="order-del-name">Перевозчик</label>
                 <select class="form-control" id="order-del-name" @change="setValueNewOrder({'order_del_name' : $event})">
                   <option value="" default>Отсутствует</option>
@@ -183,30 +174,39 @@
                 </select>
               </div>
               <div class="col-md-1">
-                <div class="input-group">
-                  <label for="order-del-depart-num">Номер отделения</label>
+                  <label for="order-del-depart-num">№ отдел.</label>
                   <input type="text" class="form-control" id="order-del-depart-num" placeholder="" @change="setValueNewOrder({'order_del_depart_num' : $event})">
-                </div>
               </div>
-              <div class="col-md-3">
-                <div class="input-group">
+              <div class="col-md-6">
                   <label for="order-del-address">Адресс</label>
                   <input type="text" class="form-control" id="order-del-address" placeholder="" @change="setValueNewOrder({'order_del_address' : $event})">
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <label for="order-del-city">Предоплата</label>
+                    <input type="text" class="form-control" id="order-prepay" placeholder="" value="0" @change="setValueNewOrder({'order_prepay' : $event})">
+                    <!--<label for="order-prepay">Статус предоплаты</label>-->
+                    <!--<select class="form-control" id="order-prepay" @change="setValueNewOrder({'order_prepay' : $event})">-->
+                    <!--<option value="false" selected>Отсутствует</option>-->
+                    <!--<option value="pending">Присутствует</option>-->
+                    <!--<option value="waiting">Присутствует(отправлено СМС)</option>-->
+                    <!--<option value="true">Оплачено</option>-->
+                    <!--</select>-->
                 </div>
-              </div>
-              <div class="col-lg-1">
-                <label for="order-status">Статус заказа</label>
-                <select class="form-control" id="order-status" @change="setValueNewOrder({'order_status' : $event})">
-                  <option value="pending" selected>В ожидании</option>
-                  <option value="processing">В обработке</option>
-                  <option value="paid">Оплачен</option>
-                  <option value="holding">Удержан</option>
-                  <option value="sended">Отправлен</option>
-                  <option value="completed">Выполнен</option>
-                  <option value="closed">Закрыт</option>
-                  <option value="confirmed">Подтвержден</option>
-                </select>
-              </div>
+                <div class="col-md-2">
+                    <label for="order-status">Статус заказа</label>
+                    <select class="form-control" id="order-status" @change="setValueNewOrder({'order_status' : $event})">
+                        <option value="pending" selected>В ожидании</option>
+                        <option value="processing">В обработке</option>
+                        <option value="paid">Оплачен</option>
+                        <option value="holding">Удержан</option>
+                        <option value="sended">Отправлен</option>
+                        <option value="completed">Выполнен</option>
+                        <option value="closed">Закрыт</option>
+                        <option value="confirmed">Подтвержден</option>
+                    </select>
+                </div>
             </div>
             <div class="row">
               <div class="col-lg-12">
@@ -250,7 +250,8 @@
                 'addChosenCustomer',
                 'addChosenProduct',
                 'setValueNewOrder',
-                'createNewOrder'
+                'createNewOrder',
+                'changeQuantityInputValue'
             ]),
             filterCustomers($event, filterBy){
                 this.filteredCustomers = [];
@@ -259,7 +260,7 @@
                     if(this.filteredCustomers.length > 5){
                         break;
                     }else{
-                        if($event.target.value !== '' && customer[filterBy].toString().indexOf($event.target.value) > -1){
+                        if($event.target.value !== '' && customer[filterBy].toString().toLowerCase().indexOf($event.target.value.toLowerCase()) > -1){
                             this.filteredCustomers.push(customer)
                         }
                     }
@@ -281,7 +282,7 @@
             getFullName(customer){
                 return (customer.customer_surname ? customer.customer_surname : '')
                   + ' ' + (customer.customer_name ? customer.customer_name : '')
-                  + ' ' + (' ' + customer.customer_patronymic ? customer.customer_patronymic : '')
+                  + ' ' + (customer.customer_patronymic ? customer.customer_patronymic : '')
             },
             getAllContacts(customer){
                 return customer.customer_main_phone
@@ -306,7 +307,7 @@
                     }
                     return deliverName + ' г. ' + customer.customer_city + ' №' + customer.customer_del_depart_num
                 }else{
-                    return 'г. ' + customer.customer_city + customer.customer_local_address
+                    return 'г. ' + (customer.customer_city ? customer.customer_city : '') + (customer.customer_local_address ? customer.customer_local_address : '')
                 }
             }
         },
@@ -350,6 +351,12 @@
         border: 1px solid #ccc;
         border-radius: 10px;
         margin-top: 30px;
+    }
+    .glyphicon-add-item{
+        font-size: 20px;
+        line-height: 16px;
+        cursor: pointer;
+        color: #05ff24;
     }
     .remove-item-icon{
         font-size: 20px;

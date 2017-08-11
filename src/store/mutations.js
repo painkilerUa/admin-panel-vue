@@ -1,5 +1,10 @@
-export const login = (state) => {
+export const login = (state, payload) => {
     state.user.authorized = true;
+    if(payload === "m_manager"){
+        state.user.isSuperUser = true
+    }else{
+        state.user.isSuperUser = false
+    }
 }
 
 export const logout = (state) => {
@@ -30,7 +35,7 @@ export const setProducts = (state, payload) => {
 export const setInformationMsg = (state, payload) => {
     state.msg.text = payload.text;
     for(let className in state.msg.className){
-        className = false;
+        state.msg.className[className] = false;
     }
     if(payload.className){
         state.msg.className[payload.className] = true;
@@ -94,4 +99,14 @@ export const clearStateNewOrder = (state, payload) => {
 
 export const setUpdatePriceDate = (state, payload) => {
     state.pricesInfo.lastUpdateDate = payload;
+}
+
+export const changeQuantityInputValue = (state, payload) => {
+    let products = state.new_order.order_products;
+    for(let product of products){
+        if(payload.id === product.id){
+            product['quantity'] = payload.quantity;
+            break
+        }
+    }
 }

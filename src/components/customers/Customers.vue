@@ -56,7 +56,9 @@
             }
         },
         methods: {
-            ...mapActions([]),
+            ...mapActions([
+                'getCustomers'
+            ]),
             getFullName(customer){
                 return (customer.customer_surname ? customer.customer_surname : '')
                     + ' ' + (customer.customer_name ? customer.customer_name : '')
@@ -88,9 +90,17 @@
                     }
                     return deliverName + ' г. ' + customer.customer_city + ' №' + customer.customer_del_depart_num
                 }else{
-                    return 'г. ' + customer.customer_city + customer.customer_local_address
+                    return 'г. ' + (customer.customer_city ? customer.customer_city : '') + (customer.customer_local_address ? customer.customer_local_address : '')
                 }
-            }
+            },
+            getFullName(customer){
+                return (customer.customer_surname ? customer.customer_surname: '')
+                    + ' ' + (customer.customer_name ? customer.customer_name: '')
+                    + ' ' + (customer.customer_patronymic ? customer.customer_patronymic: '')
+            },
+//            getEmail(customer){
+//                return customer.customer_email ? customer.customer_email: ''
+//            }
         },
         computed:{
 //            ...mapGetters([
@@ -101,7 +111,7 @@
             }
         },
         created(){
-
+            this.getCustomers();
         }
     }
 </script>

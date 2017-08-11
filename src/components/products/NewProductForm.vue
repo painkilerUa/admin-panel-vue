@@ -96,8 +96,11 @@
           </div>
       </div>
       <div class="row wrap-button-create-new-product">
-          <div class="col-lg-12">
+          <div class="col-md-2">
               <button type="submit" class="btn btn-default" @click.prevent="createOrUpdateProduct()">Создать</button>
+          </div>
+          <div class="col-md-2">
+
           </div>
       </div>
   </form>
@@ -120,13 +123,13 @@
           quantity: null,
           vendor: '',
           category_id: null,
-          attr_type: null,
-          attr_manufacturer: null,
-          attr_vid: null,
-          attr_sae: null,
+          attr_type: '',
+          attr_manufacturer: '',
+          attr_vid: '',
+          attr_sae: '',
           attr_capacity: null,
-          attr_color: null,
-          attr_antifreeze_class: null,
+          attr_color: '',
+          attr_antifreeze_class: '',
           update_time: null,
           provider_num: null
         },
@@ -154,33 +157,39 @@
             }
         },
         checkInsertedValue(){
-//            if(this.product.name.length > 255 || this.product.short_description.length > 10000 || this.product.description.length > 10000 || this.product.meta_title > 255 || this.product.vendor > 100){
-//              console.log('Too huge text field')
-//              return false;
-//            }
-//            if(this.product.quantity.length > 3){
-//              console.log('Too huge quantity')
-//              return false;
-//            }
-//            if(this.product.category_id.length > 9){
-//              console.log('Too huge category id')
-//              return false;
-//            }
-//            if(this.product.price.length > 7 || this.product.purchase_price.length > 6){
-//                console.log('Too huge price')
-//                return false;
-//            }
-//            if(product.attr_type.length > 40 || product.attr_manufacturer.length > 40 || product.attr_vid.length > 40 || product.attr_sae.length > 10 || product.attr_color.length > 20 || product.attr_antifreeze_class.length > 20 || product.attr_capacity.length > 10){
-//              console.log('Attr fields are incorrect');
-//              return false;
-//            }
-//            if(this.product.provider_num.length > 3){
-//              console.log('Too huge provider_num')
-//              return false;
-//            }
+            if(this.product.name.length > 255 || this.product.short_description.length > 10000 || this.product.description.length > 10000 || this.product.meta_title > 255 || this.product.vendor > 100){
+                this.setInformationMsg({'text' : 'Too huge text field', 'className': 'alert-danger'});
+                console.log('Too huge text field')
+              return false;
+            }
+            if((+this.product.quantity).toString().length > 3){
+                this.setInformationMsg({'text' : 'Too huge quantity', 'className': 'alert-danger'});
+                console.log('Too huge quantity')
+                return false;
+            }
+            if((+this.product.category_id).toString().length > 9){
+                this.setInformationMsg({'text' : 'Too huge category id', 'className': 'alert-danger'});
+              console.log('Too huge category id')
+              return false;
+            }
+            if((+this.product.price).toString().length > 7 || (+this.product.purchase_price).toString().length > 6){
+                this.setInformationMsg({'text' : 'Too huge price', 'className': 'alert-danger'});
+                console.log('Too huge price')
+                return false;
+            }
+            if(this.product.attr_type.length > 40 || this.product.attr_manufacturer.length > 40 || this.product.attr_vid.length > 40 || this.product.attr_sae.length > 10 || this.product.attr_color.length > 20 || this.product.attr_antifreeze_class.length > 20 || (+this.product.attr_capacity).toString().length > 10){
+                this.setInformationMsg({'text' : 'Attr fields are incorrect', 'className': 'alert-danger'});
+                console.log('Attr fields are incorrect');
+              return false;
+            }
+            if((+this.product.provider_num).toString().length > 3){
+                this.setInformationMsg({'text' : 'Too huge provider_num', 'className': 'alert-danger'});
+              console.log('Too huge provider_num')
+              return false;
+            }
 
             if(!this.product.name || !this.product.price || !this.product.purchase_price || !this.product.vendor){
-                this.setInformationMsg({'text' : 'Form filled up incorrectly', 'className': 'alert-danger'});
+                this.setInformationMsg({'text' : 'Не корректно введены данные товара', 'className': 'alert-danger'});
                 console.log('Form filled up incorrectly');
                 return false;
             }
@@ -201,6 +210,6 @@
         margin-bottom: 20px;
     }
     .wrap-button-create-new-product{
-        text-align: center;
+        /*text-align: center;*/
     }
 </style>

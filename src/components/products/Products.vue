@@ -59,7 +59,9 @@
             }
         },
         methods: {
-            ...mapActions([]),
+            ...mapActions([
+                'getProducts'
+            ]),
             editProduct(productData){
                 this.$router.push({ path: '/products/edit/' + productData.id})
             }
@@ -73,7 +75,7 @@
             }
         },
         created(){
-
+            this.getProducts();
         }
     }
 </script>

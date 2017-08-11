@@ -20,7 +20,7 @@ export const login = ({ commit }, payload) => {
             console.log(resolve)
             localStorage.setItem('id_token', resolve.body.id_token);
             localStorage.setItem('access_token', resolve.body.access_token);
-            commit('login');
+            commit('login', resolve.body.role);
             getOrders({commit});
             getCustomers({commit});
             getProducts({commit});
@@ -73,6 +73,7 @@ export const createNewCustomer = ({commit}, payload) => {
             requestToServer('customers', 'get', payload).then(
                 res => {
                     commit('setCustomers', res.bodyText)
+                    router.history.current.path === '/customers/new' ? router.push('/customers'): ''
                 }
             ).catch((err) => {
                 console.log(err)
@@ -93,7 +94,7 @@ export const createNewProductAction = ({commit}, payload) => {
                 response => {
                     commit('setProducts', response.bodyText);
                     commit('addCreatedProductToOrder', res.body['product_id'])
-                    this.$route.params.product_id ? router.push('/products') : ''
+                    router.history.current.path === '/products/new' ? router.push('/products') : ''
                 }
             ).catch((err) => {
                 console.log(err)
@@ -228,4 +229,8 @@ export const setLastUpdatePricesDate = ({commit}, payload) => {
     ).catch((err) => {
         console.log('setLastUpdatePricesDate', err);
     })
+}
+
+export const changeQuantityInputValue = ({commit}, payload) => {
+    commit('changeQuantityInputValue', payload);
 }

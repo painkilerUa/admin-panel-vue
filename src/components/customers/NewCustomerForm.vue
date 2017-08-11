@@ -67,8 +67,8 @@
             <textarea type="text" class="form-control" id="customer_comment" v-model.lazy="customer.customer_comment"></textarea>
           </div>
       </div>
-      <div class="row">
-          <div class="col-lg-12">
+      <div class="row wrap-button-create-update-customer">
+          <div class="col-md-12">
               <button type="submit" class="btn btn-default" @click.prevent="createOrUpdateCustomer">Создать</button>
           </div>
       </div>
@@ -99,14 +99,24 @@
             ...mapActions([
             'getOrders',
             'createNewCustomer',
-            'updateCustomer'
+            'updateCustomer',
+            'setInformationMsg'
             ]),
             createOrUpdateCustomer () {
+                if(!this.checkInsertedValue()) return;
                 if(this.$route.params.customer_id !== undefined){
                     this.updateCustomer(this.customer)
                 }else{
                     this.createNewCustomer(this.customer)
                 }
+            },
+            checkInsertedValue(){
+                if(!this.customer.customer_main_phone || (!this.customer.customer_surname && !this.customer.customer_name && !this.customer.customer_patronymic)){
+                    this.setInformationMsg({'text' : 'Не корректно введены данные покупателя', 'className': 'alert-danger'});
+                    console.log('Form filled up incorrectly');
+                    return false;
+                }
+                return true;
             }
         },
         created(){
@@ -118,6 +128,9 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .wrap-button-create-update-customer{
+        margin-top: 20px;
+        /*text-align: center;*/
+    }
 </style>
