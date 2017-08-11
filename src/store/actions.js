@@ -20,6 +20,7 @@ export const login = ({ commit }, payload) => {
             console.log(resolve)
             localStorage.setItem('id_token', resolve.body.id_token);
             localStorage.setItem('access_token', resolve.body.access_token);
+            commit('login');
             commit('login', resolve.body.role);
             getOrders({commit});
             getCustomers({commit});
@@ -94,6 +95,7 @@ export const createNewProductAction = ({commit}, payload) => {
                 response => {
                     commit('setProducts', response.bodyText);
                     commit('addCreatedProductToOrder', res.body['product_id'])
+                    this.$route.params.product_id ? router.push('/products') : ''
                     router.history.current.path === '/products/new' ? router.push('/products') : ''
                 }
             ).catch((err) => {
@@ -209,9 +211,8 @@ export const uploadPricesOnServer = ({commit}, payload) => {
             console.log('products-prices', res)
             if(res.body.type === 'prices_file'){
                 text = 'Прайсы были успешно загружены'
-            }else if(res.body.type === 'up_time'){
-                text = 'Цены были успешно обновлены'
-                commit('setUpdatePriceDate', res.body.data);
+            }else if(res.body.type === 'process_started'){
+                text = 'Обновление прайса началось';
             }
             setInformationMsg({commit}, {'text': text, 'className' : 'alert-success'});
         }
@@ -224,13 +225,16 @@ export const uploadPricesOnServer = ({commit}, payload) => {
 export const setLastUpdatePricesDate = ({commit}, payload) => {
     requestToServer('products-prices', 'get', payload).then(
         res => {
-            commit('setUpdatePriceDate', res.body.data);
+            commit('setUpdatePriceDate', res.body.time);
         }
     ).catch((err) => {
         console.log('setLastUpdatePricesDate', err);
     })
 }
+<<<<<<< HEAD
 
 export const changeQuantityInputValue = ({commit}, payload) => {
     commit('changeQuantityInputValue', payload);
 }
+=======
+>>>>>>> 1a5354796ad6c2ae2c965fe372662b670b170afb
