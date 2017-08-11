@@ -231,10 +231,7 @@ export const setLastUpdatePricesDate = ({commit}, payload) => {
         console.log('setLastUpdatePricesDate', err);
     })
 }
-<<<<<<< HEAD
 
 export const changeQuantityInputValue = ({commit}, payload) => {
     commit('changeQuantityInputValue', payload);
 }
-=======
->>>>>>> 1a5354796ad6c2ae2c965fe372662b670b170afb

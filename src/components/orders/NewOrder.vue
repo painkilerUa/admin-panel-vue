@@ -59,7 +59,7 @@
         </div>
         <div class="row" v-for="customer in filteredCustomers">
             <div class="col-md-4">{{getFullName(customer)}}</div>
-            <div class="col-md-2">{{getAllContacts(customer)}}</div>
+            <div class="col-md-2" v-html="getAllContacts(customer)"></div>
             <div class="col-md-3">{{getDeliveryAdress(customer)}}</div>
             <div class="col-md-2">{{customer.customer_comment}}</div>
             <div class="col-md-1">
